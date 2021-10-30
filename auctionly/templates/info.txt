@@ -1,0 +1,1 @@
+This folder is to contain the HTML for each of the pages 
