@@ -9,6 +9,7 @@ class User:
         self.last_name = last_name
         self.email = email
         self.password = password
+        self.feed = []
 
     def get_user_id(self):
         return self.user_id
@@ -25,3 +26,10 @@ class User:
     def get_password(self):
         # to-do: implement hashing function for password
         pass
+
+    # As a seller I want to be able to view the feed so that I can see the art available.
+    def get_user_feed(self):
+        return self.feed
+
+    def set_user_feed(self, feed):
+        self.feed = feed
