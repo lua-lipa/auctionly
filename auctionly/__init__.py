@@ -43,4 +43,3 @@ def mock_users():
     # mock bids 
 
     
-
