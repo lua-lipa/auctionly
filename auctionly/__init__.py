@@ -1,6 +1,19 @@
+from flask import Flask
 from users import seller
 from users import buyer 
 from art import art 
+
+def create_app():
+    app = Flask(__name__)
+    app.config['SECRET_KEY'] = 'alkjsfkalalfks'
+
+    from .views import views
+    from .auth import auth
+    
+    app.register_blueprint(views, url_prefix='/')
+    app.register_blueprint(auth, url_prefix='/')
+
+    return app
 
 def mock_users(): 
     seller_a = seller(user_id="1", 
