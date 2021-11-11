@@ -20,7 +20,7 @@ def feed():
 @app.route("/profile")
 def profile():
     return "Profile"
-
+    
 
 if __name__ == "__main__":
     app.run(debug=True)
