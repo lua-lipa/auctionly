@@ -1,8 +1,8 @@
 from .user import User
 
 class Seller(User):
-    def __init__(self, user_id, name, last_name, email, password):
-        super().__init__(user_id, name, last_name, email, password)
+    def __init__(self, name, last_name, email, password):
+        super().__init__(name, last_name, email, password)
         self.art_types = []
         self.art_for_exhibition = []
         self.art_for_auction = []

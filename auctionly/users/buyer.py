@@ -2,8 +2,8 @@ from .user import User
 
 class Buyer(User):
 
-    def __init__(self, user_id, name, last_name, email, password):
-        super().__init__(user_id, name, last_name, email, password)
+    def __init__(self, name, last_name, email, password):
+        super().__init__(name, last_name, email, password)
         self.art_prefs = []
         self.purchase_history = []
         self.bidding_history = []
