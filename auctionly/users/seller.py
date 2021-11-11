@@ -1,4 +1,6 @@
 from .user import User
+from auctionly.system.shipment import Shipment
+
 
 class Seller(User):
     def __init__(self, name, last_name, email, password):
@@ -62,9 +64,10 @@ class Seller(User):
         pass
 
     # As a seller I want to be able to ship the art safely so that it doesn’t get damaged.
-    def ship_art(self):
+    def ship_art(self, art_id):
         # calls the art shipment system
-        pass
+        shipment = Shipment()
+        shipment.ship_art(art_id)
 
     # As a seller I want to be able to update my ongoing auctions properties so that I can help it do better to increase my chances of a higher bid.
     def update_art_auction_property(self):
