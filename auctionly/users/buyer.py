@@ -1,5 +1,4 @@
-from user import User
-
+from .user import User
 
 class Buyer(User):
 
@@ -75,7 +74,3 @@ class Buyer(User):
     # As a buyer I want to be able to receive incentives for my loyalty so that I have added benefits.
     def display_loyalty_benefits(self):
         return
-    
-    def get_number_of_purchases(self):
-        """will get number of purchases made by buyer, used by rank"""
-        return len(self.purchase_history)

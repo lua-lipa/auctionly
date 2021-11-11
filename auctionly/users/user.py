@@ -1,5 +1,6 @@
 """ User class implemented to provide parent class methods to its children """
-
+from auctionly.models import User as user
+from auctionly import db
 
 class User:
 
