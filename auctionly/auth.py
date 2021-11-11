@@ -56,13 +56,14 @@ def sign_up():
         user = None
 
         if accountType == "Buyer":
-           user = Buyer(first_name, last_name, email, password)
+            user = Buyer(first_name, last_name, email, password)
         elif accountType == "Seller":
             user = Seller(first_name, last_name, email, password)
 
         db.session.add(user)
         db.session.commit()
-        #user_id = user.id
+        db.session.flush()
+        user.set_user_id(user.id)
 
         login_user(user, remember=True)
         return redirect(url_for('views.home'))

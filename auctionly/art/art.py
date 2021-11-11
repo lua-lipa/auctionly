@@ -1,4 +1,5 @@
 """module containing art class dictionary of art categories"""
+from auctionly import db
 
 art_categories = {
     "Still Life": 0,
@@ -14,9 +15,13 @@ def update_art_category_popularity(category):
     art_categories[category] = art_categories[category] + 1
 
 
-class Art:
+class Art(db.Model):
     """Art class implemented to create art objects that can be passed between users"""
-
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150))
+    description = db.Column(db.String(150))
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    
     def __init__(self, art_id, owner_id, digital_image_path, description, art_category):
         """creates an art object"""
         self.art_id = art_id
