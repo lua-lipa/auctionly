@@ -9,7 +9,6 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(150))
     last_name = db.Column(db.String(150))
 
-
 class Art(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(150))
