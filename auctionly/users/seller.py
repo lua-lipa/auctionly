@@ -1,9 +1,8 @@
-from user import User
-
+from .user import User
 
 class Seller(User):
     def __init__(self, user_id, name, last_name, email, password):
-        super().__init__(self, user_id, name, last_name, email, password)
+        super().__init__(user_id, name, last_name, email, password)
         self.art_types = []
         self.art_for_exhibition = []
         self.art_for_auction = []
@@ -15,20 +14,23 @@ class Seller(User):
     def set_art_types(self, art_types):
         self.art_types = art_types
 
+    def add_art_type(self, art_type):
+        self.art_types.append(art_type)
+
     def get_art_for_exhibition(self):
         return self.art_for_exhibition
 
-    def set_art_for_exhibition(self, art_for_exhibition):
+    def set_art_types(self, art_for_exhibition):
         self.art_for_exhibition = art_for_exhibition
 
     # As a seller I want to be able to upload my art so that I can later put it up for exhibition
-    def add_art_for_exhibition(self, art_for_exhibition):
+    def add_for_exhibition(self, art_for_exhibition):
         self.art_for_exhibition.append(art_for_exhibition)
 
     def get_art_for_auction(self):
         return self.art_for_auction
 
-    def set_art_for_auction(self, art_for_auction):
+    def set_art_types(self, art_for_auction):
         self.art_for_auction = art_for_auction
 
     # As a seller I want to be able to set the art category my art relates to so that it reaches the correct  buyers.
@@ -37,7 +39,7 @@ class Seller(User):
 
     #  As a seller I want to be able to upload my art so that I can later put it up for auction
     # As a seller I want to be able to start an auction for my art so that buyers can bid on it.
-    def add_for_auction(self, art_for_auction):
+    def add_for_exhibition(self, art_for_auction):
         self.art_for_auction.append(art_for_auction)
 
     def get_art_sold(self):
@@ -70,7 +72,3 @@ class Seller(User):
         pass
 
     # As a seller I want to be able to complete a sale of my art so I can earn money.
-
-    def get_number_of_sales(self):
-        """will get number of sales made by seller, used by rank"""
-        return len(self.art_sold)
