@@ -2,6 +2,7 @@ import datetime
 from . import db
 from .auction.auction import Auction
 from .art.art import Art
+from .users.user import User
 from flask import Blueprint, render_template, request, url_for
 from flask_login import login_required, current_user
 import flask_login
@@ -89,12 +90,10 @@ def auction():
 
     auction = Auction.query.filter_by(id=auction_id).first()
 
+    seller = User.query.filter_by(id=auction.get_seller_id()).first()
+    print(seller)
     print(auction)
 
-    user = flask_login.current_user
+    # user = flask_login.current_user
 
-    user_art = user.get_user_art()
-    for art in user_art:
-        print(art.get_description())
-
-    return render_template("auction.html", auction=auction)
+    return render_template("auction.html", auction=auction,  seller=seller)
