@@ -32,6 +32,7 @@ def profile():
     return render_template("profile.html", user_name=user_name, fuser_art=user_art)
 
 
+
 @views.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload_art():
@@ -78,3 +79,22 @@ def auction_art():
         print(art.get_description())
 
     return render_template("auction-art.html", user=user, user_art=user_art)
+
+
+@views.route('/auction', methods=['GET', 'POST'])
+@login_required
+def auction():
+
+    auction_id = request.args.get('id')
+
+    auction = Auction.query.filter_by(id=auction_id).first()
+
+    print(auction)
+
+    user = flask_login.current_user
+
+    user_art = user.get_user_art()
+    for art in user_art:
+        print(art.get_description())
+
+    return render_template("auction.html", auction=auction)
