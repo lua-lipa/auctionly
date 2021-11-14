@@ -6,7 +6,9 @@ from werkzeug.utils import redirect
 views = Blueprint('views', __name__)
 
 from .art.art import Art
+from .auction.auction import Auction
 from . import db
+import datetime
 
 
 
@@ -45,8 +47,6 @@ def upload_art():
 
         db.session.add(new_art)
         db.session.commit()
-        db.session.flush()
-        new_art.set_art_id(new_art.id)
 
         return redirect(url_for('views.profile'))
 
@@ -57,11 +57,21 @@ def upload_art():
 @login_required
 def auction_art():
     if request.method == 'POST':
-        pass
+        art_id = request.form.get('artId')
+        starting_price = request.form.get('startingPrice')
+        bid_increment = request.form.get('bidIncrement')
+        end_time = datetime.datetime.strptime(str(request.form.get('endTime')),"%Y-%m-%dT%H:%M")
+        description = request.form.get('description')
+        seller_id = flask_login.current_user.id
+
+        new_auction = Auction(end_time, seller_id, art_id, description, starting_price, bid_increment)
+        
+        db.session.add(new_auction)
+        db.session.commit()
 
     user = flask_login.current_user
     user_art = user.get_user_art()
     for art in user_art:
         print(art.get_description())
 
-    return render_template("auction-art.html", user=user,)
+    return render_template("auction-art.html", user=user, user_art=user_art)
