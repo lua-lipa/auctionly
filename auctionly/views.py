@@ -45,3 +45,12 @@ def upload_art():
 
 
     return render_template("upload.html")
+
+@views.route('/auction-art', methods=['GET', 'POST'])
+@login_required
+def auction_art():
+    if request.method == 'POST':
+        pass
+
+
+    return render_template("auction-art.html")
