@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 
 views = Blueprint('views', __name__)
 
+
 @views.route('/')
 @login_required
 def home():
@@ -12,3 +13,8 @@ def home():
 @login_required
 def rank_info():
     return render_template("rank_info.html")
+
+@views.route('/profile')
+@login_required
+def profile():
+    return render_template("profile.html")

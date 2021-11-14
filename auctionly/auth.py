@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
 
-from .models import User
+#from .models import User
 from .users.buyer import Buyer
 from .users.seller import Seller
+from .users.user import User
 from . import db
 
 auth = Blueprint('auth', __name__)
@@ -46,16 +47,23 @@ def sign_up():
 
         print("sign up")
 
-        user = User(email=email, first_name=first_name, last_name=last_name, password=password)
+        # user = User(email=email, first_name=first_name, last_name=last_name, password=password)
+        # db.session.add(user)
+        # db.session.commit()
+        # db.session.flush()
+        # user_id = user.id
+
+        user = None
+
+        if accountType == "Buyer":
+            user = Buyer(first_name, last_name, email, password)
+        elif accountType == "Seller":
+            user = Seller(first_name, last_name, email, password)
+
         db.session.add(user)
         db.session.commit()
         db.session.flush()
-        user_id = user.id
-
-        if accountType == "Buyer":
-            Buyer(user_id, first_name, last_name, email, password)
-        elif accountType == "Seller":
-            Seller(user_id, first_name, last_name, email, password)
+        user.set_user_id(user.id)
 
         login_user(user, remember=True)
         return redirect(url_for('views.home'))
