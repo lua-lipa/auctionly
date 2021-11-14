@@ -87,5 +87,8 @@ class Art(db.Model):
         """returns the id of the art object, needed for the shipment service"""
         return self.art_id
 
+    def get_name(self):
+        return self.name
+
     def set_art_id(self, art_id):
         self.art_id = art_id

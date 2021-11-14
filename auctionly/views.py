@@ -23,7 +23,10 @@ def rank_info():
 @views.route('/profile')
 @login_required
 def profile():
-    return render_template("profile.html")
+    user = flask_login.current_user
+    user_art = user.get_user_art()
+
+    return render_template("profile.html", user=user, user_art=user_art)
 
 @views.route('/upload', methods=['GET', 'POST'])
 @login_required
@@ -56,5 +59,9 @@ def auction_art():
     if request.method == 'POST':
         pass
 
+    user = flask_login.current_user
+    user_art = user.get_user_art()
+    for art in user_art:
+        print(art.get_description())
 
-    return render_template("auction-art.html")
+    return render_template("auction-art.html", user=user,)

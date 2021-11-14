@@ -4,7 +4,9 @@
     <div class="form-group">
         <label for="artCategory">Select Art</label>
         <select class="form-control" name="artCategory">
-          <option>Jinja your art here</option>
+            {% for art in user_art %}
+                <option>{{ art.get_name() }}</option>
+            {% endfor %}
         </select>
     </div>
     <div class="form-group">

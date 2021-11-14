@@ -1,6 +1,7 @@
 """ User class implemented to provide parent class methods to its children """
 from flask_login import UserMixin
 from .. import db
+from auctionly.art.art import Art
 
 class User(db.Model, UserMixin):
     __tablename__='user'
@@ -43,3 +44,6 @@ class User(db.Model, UserMixin):
         
     def set_user_id(self, user_id):
         self.user_id = user_id
+
+    def get_user_art(self):
+        return Art.query.filter_by(owner_id=self.id).all()
