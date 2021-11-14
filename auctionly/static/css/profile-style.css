@@ -81,66 +81,23 @@ html {
   flex: 33.33%;
   padding: 5px;
 }
-
-/* Qualifications*/
-
-.card-qualification {
-  background-color: #ffffff;
+.media-card {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 20px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
-  width: 100%;
-  padding: 20px;
+  background-color: white;
 }
 
-.size-change {
-  font-size: 10px;
+.media-card-small {
+  margin-top: 5px;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+  background-color: white;
 }
 
-.qualification .qualification-button {
-  background-color: #876e8f;
-  border-color: #876e8f;
-  border-radius: 50px;
-}
-
-.btn-purple {
-  background-color: #a58aae;
-  border-radius: 50px !important;
-  color: white;
-  font-size: 12px;
-}
-
-/* skills */
-
-.skills {
-  padding-left: 3px;
-  padding-right: 3px;
-  padding-top: 3px;
-}
-
-.skills .badge-skill {
-  background-color: #876e8f;
-  color: #ffffff;
-  text-align: center;
-  font-size: 12px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  width: auto;
-  border-radius: 10px;
-  border-color: #876e8f;
-  border-width: 0px;
-}
-
-.no-skills {
-  margin-left: 15px;
-  padding-right: 20px;
-  font-size: 14px;
-}
-
-/* vacancies  */
-
-.vacancies-card {
+.auctions-card {
   padding: 15px;
   border-radius: 20px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
@@ -153,58 +110,16 @@ html {
   margin-bottom: 20px;
 }
 
-.vacancy-header {
-  display: flex;
-  flex-direction: row;
-}
-
-.vacancy-title {
-  margin-left: 10px;
-}
-
-.connect-btn {
-  background-color: #a58aae;
-  border-radius: 100px !important;
-  color: white;
-  width: auto;
-  height: auto;
-  margin: auto;
+.center {
   display: block;
-  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
-.btn-small {
-  background-color: #a58aae;
-  border-radius: 100px !important;
-  color: white;
-  width: auto;
-  padding: 3px;
-  font-size: 10px;
-  margin: auto;
+.center-small {
   display: block;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.btn-view-more {
-  background-color: white;
-  border-radius: 100px !important;
-  color: #a58aae;
-  width: auto;
-  padding: 3px;
-  font-size: 10px;
-  margin: auto;
-  display: block;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.editWhiteBtn {
-  margin-right: 10px;
-  margin-top: 10px;
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  height: 35px !important;
-  border-color: #876e8f !important;
-  border-radius: 50px !important;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
