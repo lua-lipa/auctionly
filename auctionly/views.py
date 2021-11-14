@@ -1,3 +1,7 @@
+import datetime
+from . import db
+from .auction.auction import Auction
+from .art.art import Art
 from flask import Blueprint, render_template, request, url_for
 from flask_login import login_required, current_user
 import flask_login
@@ -5,43 +9,40 @@ from werkzeug.utils import redirect
 
 views = Blueprint('views', __name__)
 
-from .art.art import Art
-from .auction.auction import Auction
-from . import db
-import datetime
-
-
 
 @views.route('/')
 @login_required
 def home():
     return render_template("home.html")
 
+
 @views.route('/rank_info')
 @login_required
 def rank_info():
     return render_template("rank_info.html")
+
 
 @views.route('/profile')
 @login_required
 def profile():
     user = flask_login.current_user
     user_art = user.get_user_art()
+    user_name = user.get_first_name() + " " + user.get_last_name()
 
-    return render_template("profile.html", user=user, user_art=user_art)
+    return render_template("profile.html", user_name=user_name, fuser_art=user_art)
+
 
 @views.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload_art():
     if request.method == 'POST':
-        image = request.form.get('email') 
+        image = request.form.get('email')
         name = request.form.get('name')
         description = request.form.get('description')
         art_category = request.form.get('artCategory')
         owner_id = flask_login.current_user.id
-        
+
         print(owner_id)
-            
 
         new_art = Art(name, owner_id, image, description, art_category)
 
@@ -50,8 +51,8 @@ def upload_art():
 
         return redirect(url_for('views.profile'))
 
-
     return render_template("upload.html")
+
 
 @views.route('/auction-art', methods=['GET', 'POST'])
 @login_required
@@ -60,12 +61,14 @@ def auction_art():
         art_id = request.form.get('artId')
         starting_price = request.form.get('startingPrice')
         bid_increment = request.form.get('bidIncrement')
-        end_time = datetime.datetime.strptime(str(request.form.get('endTime')),"%Y-%m-%dT%H:%M")
+        end_time = datetime.datetime.strptime(
+            str(request.form.get('endTime')), "%Y-%m-%dT%H:%M")
         description = request.form.get('description')
         seller_id = flask_login.current_user.id
 
-        new_auction = Auction(end_time, seller_id, art_id, description, starting_price, bid_increment)
-        
+        new_auction = Auction(end_time, seller_id, art_id,
+                              description, starting_price, bid_increment)
+
         db.session.add(new_auction)
         db.session.commit()
 

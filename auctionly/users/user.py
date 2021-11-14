@@ -3,8 +3,9 @@ from flask_login import UserMixin
 from .. import db
 from auctionly.art.art import Art
 
+
 class User(db.Model, UserMixin):
-    __tablename__='user'
+    __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
@@ -12,8 +13,8 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(150))
     last_name = db.Column(db.String(150))
 
-    def __init__(self, name, last_name, email, password):
-        self.name = name
+    def __init__(self, first_name, last_name, email, password):
+        self.first_name = first_name
         self.last_name = last_name
         self.email = email
         self.password = password
@@ -22,8 +23,8 @@ class User(db.Model, UserMixin):
     def get_user_id(self):
         return self.user_id
 
-    def get_name(self):
-        return self.name
+    def get_first_name(self):
+        return self.first_name
 
     def get_last_name(self):
         return self.last_name
@@ -41,7 +42,7 @@ class User(db.Model, UserMixin):
 
     def set_user_feed(self, feed):
         self.feed = feed
-        
+
     def set_user_id(self, user_id):
         self.user_id = user_id
 
