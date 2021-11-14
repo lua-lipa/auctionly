@@ -40,6 +40,6 @@ class User(db.Model, UserMixin):
 
     def set_user_feed(self, feed):
         self.feed = feed
-
+        
     def set_user_id(self, user_id):
-        return self.feed
+        self.user_id = user_id
