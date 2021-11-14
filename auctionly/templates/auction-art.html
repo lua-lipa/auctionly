@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block title %}Put Art For Auction{% endblock %} {% block content %}
+<form method="POST">
+    <h3 align="center">Put Art For Auction</h3>
+    <div class="form-group">
+        <label for="artId">Select Art</label>
+        <select class="form-control" name="artId">
+            {% for art in user_art %}
+                <option value="{{ art.get_art_id() }}">{{ art.get_name() }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="startingPrice">Starting Price</label>
+        <input type="text" class="form-control" id="startingPrice" name="startingPrice" placeholder="Starting Price" />
+    </div>
+    <div class="form-group">
+        <label for="bidIncrement">Bid Increment</label>
+        <input type="text" class="form-control" id="bidIncrement" name="bidIncrement" placeholder="Bid Increment" />
+    </div>
+    <div class="form-group">
+        <label for="endTime">End Time</label>
+        <input type="datetime-local" class="form-control" id="endTime" name="endTime" placeholder="End Time" />
+    </div>
+    <div class="form-group">
+        <label for="description">Auction Description</label>
+        <input type="description" class="form-control" id="description" name="description" placeholder="Description" />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
