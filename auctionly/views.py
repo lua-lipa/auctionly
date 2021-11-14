@@ -9,6 +9,10 @@ views = Blueprint('views', __name__)
 def home():
     return render_template("home.html")
 
+@views.route('/rank_info')
+@login_required
+def rank_info():
+    return render_template("rank_info.html")
 
 @views.route('/profile')
 @login_required
