@@ -27,10 +27,8 @@ def rank_info():
 @login_required
 def profile():
     user = flask_login.current_user
-    user_art = user.get_user_art()
-    user_name = user.get_first_name() + " " + user.get_last_name()
 
-    return render_template("profile.html", user_name=user_name, fuser_art=user_art)
+    return render_template("profile.html", user=user)
 
 
 
