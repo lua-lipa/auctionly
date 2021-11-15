@@ -3,6 +3,7 @@ import datetime
 from auctionly.bid.bid import Bid
 from auctionly.art.art import Art
 from auctionly.users.user import User
+from auctionly.system.payment import Payment
 
 
 class Auction(db.Model):
@@ -135,8 +136,15 @@ class Auction(db.Model):
     def place_bid(self, user_id):
         amount = self.get_current_bidding_price()
         time = datetime.datetime.now()
-        bid = Bid(user_id=user_id, auction_id=self.get_auction_id(),
-                  amount=amount, time=time)
 
-        db.session.add(bid)
-        db.session.commit()
+        bid_received = Payment.receive_bid_from_user(user_id, amount)
+
+        if (bid_received):
+            bid = Bid(user_id=user_id, auction_id=self.get_auction_id(),
+                      amount=amount, time=time)
+
+            db.session.add(bid)
+            db.session.commit()
+        else:
+            print(
+                "BID NOT RECEIVED FROM THE USER. WE WERE NOT ABLE TO HOLD THE BIDDING AMOUNT FROM YOUR ACCOUNT")
