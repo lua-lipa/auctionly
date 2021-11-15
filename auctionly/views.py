@@ -33,7 +33,6 @@ def profile():
     return render_template("profile.html", user_name=user_name, fuser_art=user_art)
 
 
-
 @views.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload_art():
@@ -86,14 +85,27 @@ def auction_art():
 @login_required
 def auction():
 
+    user = flask_login.current_user
+    user_id = user.get_id()
     auction_id = request.args.get('id')
 
     auction = Auction.query.filter_by(id=auction_id).first()
 
-    seller = User.query.filter_by(id=auction.get_seller_id()).first()
-    print(seller)
+    if request.method == 'POST':
+        # user clicked PLACE BET
+        auction.place_bid(user_id)
+
     print(auction)
+    seller_id = auction.get_seller_id()
+    seller = User.query.filter_by(id=seller_id).first()
 
-    # user = flask_login.current_user
+    bids_placed_by_user = Auction.query.filter_by(seller_id=user_id).first()
 
-    return render_template("auction.html", auction=auction,  seller=seller)
+    user_placed_highest_bid = False
+
+    # need to add a check that the user has placed the highest bid
+
+    if (bids_placed_by_user != None):
+        user_placed_highest_bid = True
+
+    return render_template("auction.html", auction=auction,  seller=seller, bid_placed=bids_placed_by_user)

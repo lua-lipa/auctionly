@@ -107,20 +107,36 @@ class Auction(db.Model):
     def get_latest_bid(self):
         if (self.get_number_of_bids() == 0):
             return 0
-        return Bid.query.filter_by(auction_id=self.get_auction_id()).all()
+        bids = Bid.query.filter_by(auction_id=self.get_auction_id()).all()
+        highest_bid_amount = int(self.get_starter_price())
+        print(highest_bid_amount)
+        for bid in bids:
+            print(bid.get_amount())
+            if (bid.get_amount() > highest_bid_amount):
+                highest_bid_amount = bid.get_amount()
+
+        return highest_bid_amount
 
     def get_current_bidding_price(self):
+        pass
         if len(self.get_bids()) == 0:
             return self.get_starter_price()
         else:
             latest_bid = self.get_latest_bid()
-            return latest_bid + self.get_bid_increment()
+            return int(latest_bid) + int(self.get_bid_increment())
 
     def get_number_of_bids(self):
         return len(self.get_bids())
 
     def get_title(self):
         art = Art.query.filter_by(id=self.get_art_id()).one()
-        # return art.get_name()
-        # placeholder for now
-        return "Mona Lisa"
+        return art.get_name()
+
+    def place_bid(self, user_id):
+        amount = self.get_current_bidding_price()
+        time = datetime.datetime.now()
+        bid = Bid(user_id=user_id, auction_id=self.get_auction_id(),
+                  amount=amount, time=time)
+
+        db.session.add(bid)
+        db.session.commit()
