@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content %}
+{% extends "base.html" %} {% block title %}Auction{% endblock %} {% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,14 +14,17 @@
                         </div>
                         <div class="col-6 pl-3 d-flex justify-content-center align-items-start flex-column">
                             <div class="row">
-                                <h4 class="user-name"> {{user_name}} </h4>
+                                <h4 class="user-name"> title: {{auction.get_art_id()}} </h4>
                             </div>
                             <div class="row">
-                                <p class="user-profession"> singer / artist </p>
+                                <p class="user-profession"> Owner: {{seller.get_name()}} </p>
+                            </div>
+                            <div class="row">
+                                <p class="user-connections"> Latest bid: $20 </p>
                             </div>
 
                             <div class="row">
-                                <p class="user-connections">Pieces owned: 3</p>
+                                <p class="user-connections"> Time left: 20 hours </p>
                             </div>
                         </div>
                     </div>
@@ -29,43 +32,19 @@
                         <div class="card-about">
                         <div class="col">
                             <div class="row mt-2">
-                                <h8 class="mb-2">About</h8>
+                                <h8 class="mb-2" style="bold">Auction description</h8>
                             </div>
                             <div class="row">
-                                <p style="">its britney bitch</p>
+                                <p style="">{{auction.get_auction_description()}}</p>
                             </div>
                         </div>
                     </div>
                     </div>
 
-                    <!-- ADD Employment History -->
-                    <div class="row mt-3">
-                        <div class="card-employmentHistory">
-                            <div class="col-9">
-                                <div class="row">
-                                    <h8>Art Gallery</h8>
-                                </div>
-                                <div class="row">
-                                    <div class="column">
-                                    <img src="../static/images/img_snow.jpg" alt="Snow" style="width:100%">
-                                    </div>
-                                    <div class="column">
-                                    <img src="../static/images/img_forest.jpg" alt="Forest" style="width:100%">
-                                    </div>
-                                    <div class="column">
-                                    <img src="../static/images/img_mountains.jpg" alt="Mountains" style="width:100%">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-3 d-flex justify-content-end">
-                                <div class="row">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <form action="/upload">
-                        <input type="submit" value="Upload Art" />
+                        <br><br>
+                        <input type="submit" value="Place Bid" />
                     </form>
                 </div>
                 <div class="col-lg-3 display: flex">
