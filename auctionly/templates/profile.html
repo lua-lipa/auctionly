@@ -46,13 +46,11 @@
                                     <h8>Art Gallery</h8>
                                 </div>
                                 <div class="row">
-                                    
                                     {% for art in user_art %}
                                     <div class="column">
                                         <option value="{{ art.get_art_id() }}">{{ art.get_name() }}</option>
                                     </div>
                                     {% endfor %}
-                                    
                                 </div>
                             </div>
                             <div class="col-3 d-flex justify-content-end">
