@@ -14,7 +14,7 @@
                         </div>
                         <div class="col-6 pl-3 d-flex justify-content-center align-items-start flex-column">
                             <div class="row">
-                                <h4 class="user-name"> {{user_name}} </h4>
+                                <h4 class="user-name"> {{ user.get_full_name() }} </h4>
                             </div>
                             <div class="row">
                                 <p class="user-profession"> singer / artist </p>
@@ -46,15 +46,13 @@
                                     <h8>Art Gallery</h8>
                                 </div>
                                 <div class="row">
+                                    
+                                    {% for art in user_art %}
                                     <div class="column">
-                                    <img src="../static/images/img_snow.jpg" alt="Snow" style="width:100%">
+                                        <option value="{{ art.get_art_id() }}">{{ art.get_name() }}</option>
                                     </div>
-                                    <div class="column">
-                                    <img src="../static/images/img_forest.jpg" alt="Forest" style="width:100%">
-                                    </div>
-                                    <div class="column">
-                                    <img src="../static/images/img_mountains.jpg" alt="Mountains" style="width:100%">
-                                    </div>
+                                    {% endfor %}
+                                    
                                 </div>
                             </div>
                             <div class="col-3 d-flex justify-content-end">

@@ -2,9 +2,8 @@ import datetime
 from . import db
 from .auction.auction import Auction
 from .art.art import Art
-from .users.user import User
-from flask import Blueprint, render_template, request, url_for, flash
-from flask_login import login_required, current_user
+from flask import Blueprint, render_template, request, url_for
+from flask_login import login_required
 import flask_login
 from werkzeug.utils import redirect
 
@@ -28,22 +27,23 @@ def rank_info():
 def profile():
     user = flask_login.current_user
     user_art = user.get_user_art()
-    user_name = user.get_first_name() + " " + user.get_last_name()
+    for art in user_art:
+        print(art.get_description())
 
-    return render_template("profile.html", user_name=user_name, fuser_art=user_art)
-
+    return render_template("profile.html", user=user, user_art=user_art)
 
 @views.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload_art():
     if request.method == 'POST':
-        image = request.form.get('email')
         name = request.form.get('name')
+        owner_id = flask_login.current_user.id
+        image = request.form.get('image')
         description = request.form.get('description')
         art_category = request.form.get('artCategory')
-        owner_id = flask_login.current_user.id
 
         print(owner_id)
+        print(name)
 
         new_art = Art(name, owner_id, image, description, art_category)
 
