@@ -23,6 +23,7 @@ class Art(db.Model):
     description = db.Column(db.String(150))
     image = db.Column(db.String(150))
     art_category = db.Column(db.String(150))
+    up_for_auction = db.Column(db.String(5))
 
     def __init__(self, name, owner_id, digital_image_path, description, art_category):
         """creates an art object"""
@@ -30,7 +31,7 @@ class Art(db.Model):
         self.owner_id = owner_id
         self.image = digital_image_path
         self.description = description
-        self.up_for_auction = False
+        self.up_for_auction = "False"
         self.art_category = art_category
         self.art_status = "With owner"
         update_art_category_popularity(art_category)

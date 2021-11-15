@@ -2,11 +2,8 @@ import datetime
 from . import db
 from .auction.auction import Auction
 from .art.art import Art
-<<<<<<< HEAD
 from .users.user import User
 from .system.feed import Feed
-=======
->>>>>>> 044072392ebc404011ed5716b8fa6a32a527c047
 from flask import Blueprint, render_template, request, url_for
 from flask_login import login_required
 import flask_login
@@ -25,7 +22,7 @@ def home():
         user_feed = feed.get_feed()
     else:
         user_feed = feed.get_users_feed()
-    return render_template("home.html", feed_art=user_feed)
+    return render_template("home.html", feed_art=user_feed, feed=feed)
 
 
 @views.route('/rank_info')
@@ -37,15 +34,11 @@ def rank_info():
 @login_required
 def profile():
     user = flask_login.current_user
-<<<<<<< HEAD
-    return render_template("profile.html", user=user)
-=======
     user_art = user.get_user_art()
     for art in user_art:
         print(art.get_description())
 
     return render_template("profile.html", user=user, user_art=user_art)
->>>>>>> 044072392ebc404011ed5716b8fa6a32a527c047
 
 @views.route('/upload', methods=['GET', 'POST'])
 @login_required
