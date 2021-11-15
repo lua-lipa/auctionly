@@ -10,7 +10,8 @@ html {
     background-color: maroon;
     border-radius: 100px !important;
     color: white;
-    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     margin: auto;
     margin-bottom: 10px;
 }

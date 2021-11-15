@@ -1,5 +1,6 @@
 from auctionly.art.art import Art
 from auctionly.users.user import User
+from auctionly.auction.auction import Auction
 
 class Feed: 
     def __init__(self, art_prefs):
@@ -19,3 +20,9 @@ class Feed:
         user = User.query.filter_by(id=user_id).first()
         name = user.get_full_name()
         return name
+    
+    def get_art_auction_id(self, art_id):
+        auction = Auction.query.filter_by(art_id=art_id).first()
+        auction_id = auction.get_auction_id()
+        return auction_id
+

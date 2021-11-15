@@ -24,14 +24,14 @@
                                 <div class="media-body">
                                     <h3><a style="color: maroon; text-decoration: none;" type="submit" name="view">{{ art.get_name() }}</a></h3>
                                     <img src="https://picsum.photos/600/500" class="img-fluid center" style="padding-top: 10px; align-items: center;">
-                                    <h7><a style="color: maroon; text-decoration: none; padding-top: 10px;" type="submit" name="view">{{ feed.get_user_name(art.get_owner()) }}</a></h7>
+                                    <h7><a style="color: maroon; text-decoration: none; padding-top: 10px; font-size: 20px;" type="submit" name="view">{{ feed.get_user_name(art.get_owner()) }}</a></h7>
                                     <br>
                                     <h8 style="color: maroon;">Status: <h8 style="color: black;">{%if art.get_up_for_auction() == "False":%} On Exhibition {%else:%} On Auction {%endif%}</h8>
-                                    <p style="font-size: 13px; padding-top: 10px;">{{ art.get_description() }}</p>
+                                    <p style="font-size: 13px; padding-top: 10px; color: black;">{{ art.get_description() }}</p>
                                     {%if art.get_up_for_auction() == "False":%}
-                                    <button type="submit" class="btn btn-view-more">Notify me</button>
+                                    <a href="/rank_info" role="button"><button type="button" class="btn btn-view-more">Notify me</button></a>
                                     {%else:%}
-                                    <button type="submit" class="btn btn-view-more">Go to auction</button>
+                                    <a href="/auction?id={{ feed.get_art_auction_id(art.get_art_id()) }}" role="button"><button type="button" class="btn btn-view-more">Go to auction</button></a>
                                     {%endif%}
                                 </div>
                             </div>
