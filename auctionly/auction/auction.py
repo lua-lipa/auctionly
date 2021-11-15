@@ -1,5 +1,9 @@
 from auctionly import db
 import datetime
+from auctionly.bid.bid import Bid
+from auctionly.art.art import Art
+from auctionly.users.user import User
+from auctionly.system.payment import Payment
 
 
 class Auction(db.Model):
@@ -39,7 +43,7 @@ class Auction(db.Model):
         return self.seller_id
 
     def get_auction_id(self):
-        return self.auction_type
+        return self.id
 
     def get_art_id(self):
         return self.art_id
@@ -61,9 +65,6 @@ class Auction(db.Model):
 
     def get_buyer_id(self):
         return self.buyer_id
-
-    def get_bids(self):
-        return self.bids
 
     def get_payment(self):
         return self.payment
@@ -88,3 +89,62 @@ class Auction(db.Model):
 
     def set_payment(self, payment):
         self.payment = payment
+
+    def get_time_since_start(self):
+        """ displays how much time has passed since the beginning of the auction """
+        now = datetime.datetime.now()
+        return (now - self.get_upload_time())
+
+    def get_time_left(self):
+        """ returns how much time is left before the auction ends """
+        """ by default it is set to last 3 days since the start of the auction """
+        time_out = self.get_upload_time() + datetime.timedelta(days=3)
+        now = datetime.datetime.now()
+        return (time_out - now)
+
+    def get_bids(self):
+        return Bid.query.filter_by(auction_id=self.get_auction_id()).all()
+
+    def get_latest_bid(self):
+        if (self.get_number_of_bids() == 0):
+            return 0
+        bids = Bid.query.filter_by(auction_id=self.get_auction_id()).all()
+        highest_bid_amount = int(self.get_starter_price())
+        print(highest_bid_amount)
+        for bid in bids:
+            print(bid.get_amount())
+            if (bid.get_amount() > highest_bid_amount):
+                highest_bid_amount = bid.get_amount()
+
+        return highest_bid_amount
+
+    def get_current_bidding_price(self):
+        pass
+        if len(self.get_bids()) == 0:
+            return self.get_starter_price()
+        else:
+            latest_bid = self.get_latest_bid()
+            return int(latest_bid) + int(self.get_bid_increment())
+
+    def get_number_of_bids(self):
+        return len(self.get_bids())
+
+    def get_title(self):
+        art = Art.query.filter_by(id=self.get_art_id()).one()
+        return art.get_name()
+
+    def place_bid(self, user_id):
+        amount = self.get_current_bidding_price()
+        time = datetime.datetime.now()
+
+        bid_received = Payment.receive_bid_from_user(user_id, amount)
+
+        if (bid_received):
+            bid = Bid(user_id=user_id, auction_id=self.get_auction_id(),
+                      amount=amount, time=time)
+
+            db.session.add(bid)
+            db.session.commit()
+        else:
+            print(
+                "BID NOT RECEIVED FROM THE USER. WE WERE NOT ABLE TO HOLD THE BIDDING AMOUNT FROM YOUR ACCOUNT")

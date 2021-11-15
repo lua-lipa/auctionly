@@ -30,6 +30,9 @@ class User(db.Model, UserMixin):
     def get_last_name(self):
         return self.last_name
 
+    def get_full_name(self):
+        return self.first_name + " " + self.last_name
+
     def get_email(self):
         return self.email
 

@@ -2,10 +2,13 @@ import datetime
 from . import db
 from .auction.auction import Auction
 from .art.art import Art
+<<<<<<< HEAD
 from .users.user import User
 from .system.feed import Feed
+=======
+>>>>>>> 044072392ebc404011ed5716b8fa6a32a527c047
 from flask import Blueprint, render_template, request, url_for
-from flask_login import login_required, current_user
+from flask_login import login_required
 import flask_login
 from werkzeug.utils import redirect
 
@@ -34,19 +37,28 @@ def rank_info():
 @login_required
 def profile():
     user = flask_login.current_user
+<<<<<<< HEAD
     return render_template("profile.html", user=user)
+=======
+    user_art = user.get_user_art()
+    for art in user_art:
+        print(art.get_description())
+
+    return render_template("profile.html", user=user, user_art=user_art)
+>>>>>>> 044072392ebc404011ed5716b8fa6a32a527c047
 
 @views.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload_art():
     if request.method == 'POST':
-        image = request.form.get('email')
         name = request.form.get('name')
+        owner_id = flask_login.current_user.id
+        image = request.form.get('image')
         description = request.form.get('description')
         art_category = request.form.get('artCategory')
-        owner_id = flask_login.current_user.id
 
         print(owner_id)
+        print(name)
 
         new_art = Art(name, owner_id, image, description, art_category)
 
@@ -88,14 +100,27 @@ def auction_art():
 @login_required
 def auction():
 
+    user = flask_login.current_user
+    user_id = user.get_id()
     auction_id = request.args.get('id')
 
     auction = Auction.query.filter_by(id=auction_id).first()
 
-    seller = User.query.filter_by(id=auction.get_seller_id()).first()
-    print(seller)
+    if request.method == 'POST':
+        # user clicked PLACE BET
+        auction.place_bid(user_id)
+
     print(auction)
+    seller_id = auction.get_seller_id()
+    seller = User.query.filter_by(id=seller_id).first()
 
-    # user = flask_login.current_user
+    bids_placed_by_user = Auction.query.filter_by(seller_id=user_id).first()
 
-    return render_template("auction.html", auction=auction,  seller=seller)
+    user_placed_highest_bid = False
+
+    # need to add a check that the user has placed the highest bid
+
+    if (bids_placed_by_user != None):
+        user_placed_highest_bid = True
+
+    return render_template("auction.html", auction=auction,  seller=seller, bid_placed=bids_placed_by_user)

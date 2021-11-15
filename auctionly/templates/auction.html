@@ -14,18 +14,23 @@
                         </div>
                         <div class="col-6 pl-3 d-flex justify-content-center align-items-start flex-column">
                             <div class="row">
-                                <h4 class="user-name"> title: {{auction.get_art_id()}} </h4>
+                                <h4 class="user-name"> title: {{auction.get_title()}} </h4>
                             </div>
                             <div class="row">
                                 <p class="user-profession"> Owner: {{seller.get_name()}} </p>
                             </div>
                             <div class="row">
-                                <p class="user-connections"> Latest bid: $20 </p>
+                                <p class="user-connections"> Latest bid: {{auction.get_latest_bid()}} </p>
                             </div>
 
                             <div class="row">
-                                <p class="user-connections"> Time left: 20 hours </p>
+                                <p class="user-connections"> Time Since start: {{auction.get_time_since_start()}} </p>
                             </div>
+
+                            <div class="row">
+                                <p class="user-connections"> Time left: {{auction.get_time_left()}}
+                            </div>
+
                         </div>
                     </div>
                     <div class="row h-22 mt-3">
@@ -37,15 +42,22 @@
                             <div class="row">
                                 <p style="">{{auction.get_auction_description()}}</p>
                             </div>
+
+                            <div class="row mt-2">
+                                <h8 class="mb-2" style="bold">Bids placed: {{auction.get_number_of_bids()}}</h8>
+                            </div>
+
                         </div>
                     </div>
                     </div>
-
-
-                    <form action="/upload">
-                        <br><br>
-                        <input type="submit" value="Place Bid" />
+                    <br><br>
+                    {% if not(bid_placed): %}
+                    <form method = "POST">
+                        <input type="submit" value="Place €{{auction.get_current_bidding_price()}} Bid" />
                     </form>
+                    {% else %}
+                        <h8 class="mb-2" style="bold">You have succesfully placed a bid</h8>
+                    {% endif %}
                 </div>
                 <div class="col-lg-3 display: flex">
                     <div class="auctions-card">
