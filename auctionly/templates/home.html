@@ -18,66 +18,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="media-card">
-                        <div class="media">
-                            <div class="media-body">
-                                <h3><a style="color: maroon; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h3>
-                                <img src="https://picsum.photos/600/500" class="img-fluid center" style="padding-top: 10px; align-items: center;">
-                                <h7><a style="color: maroon; text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
-                                <br>
-                                <h8 style="color: maroon;">Status: <h8 style="color: black;">On Auction</h8></h8>
-                                <p style="font-size: 13px; padding-top: 10px;">this is the Mona Lisa, look at it, appreciate it, it changes your life. I was going to kill myself then I saw the Mona Lisa so I was like broooo if she that ugly and famous I'm sure sexy me can get famous too. So I've found purpose. Thanks.</p>
+                    {% for art in feed_art %}
+                        <div class="media-card">
+                            <div class="media">
+                                <div class="media-body">
+                                    <h3><a style="color: maroon; text-decoration: none;" type="submit" name="view">{{ art.get_name() }}</a></h3>
+                                    <img src="https://picsum.photos/600/500" class="img-fluid center" style="padding-top: 10px; align-items: center;">
+                                    <h7><a style="color: maroon; text-decoration: none; padding-top: 10px;" type="submit" name="view">{{ art.get_name() }}</a></h7>
+                                    <br>
+                                    <h8 style="color: maroon;">Status: <h8 style="color: black;">On Auction</h8></h8>
+                                    <p style="font-size: 13px; padding-top: 10px;">{{ art.get_description() }}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="media-card">
-                        <div class="media">
-                            <div class="media-body">
-                                <h3><a style="color: maroon; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h3>
-                                <img src="https://picsum.photos/600/500" class="img-fluid center" style="padding-top: 10px; align-items: center;">
-                                <h7><a style="color: maroon; text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
-                                <br>
-                                <h8 style="color: maroon;">Status: <h8 style="color: black;">On Exhibition</h8></h8>
-                                <p style="font-size: 13px; padding-top: 10px;">this is the Mona Lisa, look at it, appreciate it, it changes your life. I was going to kill myself then I saw the Mona Lisa so I was like broooo if she that ugly and famous I'm sure sexy me can get famous too. So I've found purpose. Thanks.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="media-card">
-                        <div class="media">
-                            <div class="media-body">
-                                <h3><a style="color: maroon; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h3>
-                                <img src="https://picsum.photos/600/500" class="img-fluid center" style="padding-top: 10px; align-items: center;">
-                                <h7><a style="color: maroon; text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
-                                <br>
-                                <h8 style="color: maroon;">Status: <h8 style="color: black;">On Auction</h8></h8>
-                                <p style="font-size: 13px; padding-top: 10px;">this is the Mona Lisa, look at it, appreciate it, it changes your life. I was going to kill myself then I saw the Mona Lisa so I was like broooo if she that ugly and famous I'm sure sexy me can get famous too. So I've found purpose. Thanks.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="media-card">
-                        <div class="media">
-                            <div class="media-body">
-                                <h3><a style="color: maroon; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h3>
-                                <img src="https://picsum.photos/600/500" class="img-fluid center" style="padding-top: 10px; align-items: center;">
-                                <h7><a style="color: maroon; text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
-                                <br>
-                                <h8 style="color: maroon;">Status: <h8 style="color: black;">On Exhibition</h8></h8>
-                                <p style="font-size: 13px; padding-top: 10px;">this is the Mona Lisa, look at it, appreciate it, it changes your life. I was going to kill myself then I saw the Mona Lisa so I was like broooo if she that ugly and famous I'm sure sexy me can get famous too. So I've found purpose. Thanks.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="media-card">
-                        <div class="media">
-                            <div class="media-body">
-                                <h3><a style="color: maroon; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h3>
-                                <img src="https://picsum.photos/600/500" class="img-fluid center" style="padding-top: 10px; align-items: center;">
-                                <h7><a style="color: maroon; text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
-                                <br>
-                                <h8 style="color: maroon;">Status: <h8 style="color: black;">On Auction</h8></h8>
-                                <p style="font-size: 13px; padding-top: 10px;">this is the Mona Lisa, look at it, appreciate it, it changes your life. I was going to kill myself then I saw the Mona Lisa so I was like broooo if she that ugly and famous I'm sure sexy me can get famous too. So I've found purpose. Thanks.</p>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
                 <div class="col-lg-3">
                 <div class="auctions-card">
