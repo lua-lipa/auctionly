@@ -1,0 +1,94 @@
+{% extends "base.html" %} {% block title %}Auction{% endblock %} {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="../static/css/profile-style.css" rel="stylesheet">
+</head>
+<div class="container mt-3">
+    <div class="main-page">
+            <div class="row">
+                <div class="col-lg-9 pr-5">
+                    <div class="row card-profile">
+                        <div class="col-3 d-flex justify-content-center align-items-center">
+                            <img src="../static/images/itsbritneybich.jpg" class="img-circle" />
+                        </div>
+                        <div class="col-6 pl-3 d-flex justify-content-center align-items-start flex-column">
+                            <div class="row">
+                                <h4 class="user-name"> title: {{auction.get_title()}} </h4>
+                            </div>
+                            <div class="row">
+                                <p class="user-profession"> Owner: {{seller.get_name()}} </p>
+                            </div>
+                            <div class="row">
+                                <p class="user-connections"> Latest bid: {{auction.get_latest_bid()}} </p>
+                            </div>
+
+                            <div class="row">
+                                <p class="user-connections"> Time Since start: {{auction.get_time_since_start()}} </p>
+                            </div>
+
+                            <div class="row">
+                                <p class="user-connections"> Time left: {{auction.get_time_left()}}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row h-22 mt-3">
+                        <div class="card-about">
+                        <div class="col">
+                            <div class="row mt-2">
+                                <h8 class="mb-2" style="bold">Auction description</h8>
+                            </div>
+                            <div class="row">
+                                <p style="">{{auction.get_auction_description()}}</p>
+                            </div>
+
+                            <div class="row mt-2">
+                                <h8 class="mb-2" style="bold">Bids placed: {{auction.get_number_of_bids()}}</h8>
+                            </div>
+
+                        </div>
+                    </div>
+                    </div>
+                    <br><br>
+
+                    <form action="/upload">
+                        <input type="submit" value="Place €{{auction.get_current_bidding_price()}} Bid" />
+                    </form>
+                </div>
+                <div class="col-lg-3 display: flex">
+                    <div class="auctions-card">
+                        <h3><a style="color: #000000; text-decoration: none;" type="submit" name="view">Auction Alerts</a></h3>
+                        <br>
+                        <div class="media">
+                            <div class="media-body">
+                                <h5><a style="color: #000000; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h5>
+                                <img src="https://picsum.photos/600/500" class="img-fluid center-small" style="padding-top: 10px; align-items: center;">
+                                <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="media">
+                            <div class="media-body">
+                                <h5><a style="color: #000000; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h5>
+                                <img src="https://picsum.photos/600/500" class="img-fluid center-small" style="padding-top: 10px; align-items: center;">
+                                <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="media">
+                            <div class="media-body">
+                                <h5><a style="color: #000000; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h5>
+                                <img src="https://picsum.photos/600/500" class="img-fluid center-small" style="padding-top: 10px; align-items: center;">
+                                <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

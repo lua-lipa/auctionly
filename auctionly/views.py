@@ -2,7 +2,8 @@ import datetime
 from . import db
 from .auction.auction import Auction
 from .art.art import Art
-from flask import Blueprint, render_template, request, url_for
+from .users.user import User
+from flask import Blueprint, render_template, request, url_for, flash
 from flask_login import login_required, current_user
 import flask_login
 from werkzeug.utils import redirect
@@ -28,6 +29,7 @@ def profile():
     user = flask_login.current_user
 
     return render_template("profile.html", user=user)
+
 
 
 @views.route('/upload', methods=['GET', 'POST'])
@@ -76,3 +78,20 @@ def auction_art():
         print(art.get_description())
 
     return render_template("auction-art.html", user=user, user_art=user_art)
+
+
+@views.route('/auction', methods=['GET', 'POST'])
+@login_required
+def auction():
+
+    auction_id = request.args.get('id')
+
+    auction = Auction.query.filter_by(id=auction_id).first()
+
+    seller = User.query.filter_by(id=auction.get_seller_id()).first()
+    print(seller)
+    print(auction)
+
+    # user = flask_login.current_user
+
+    return render_template("auction.html", auction=auction,  seller=seller)
