@@ -3,7 +3,7 @@ from . import db
 from .auction.auction import Auction
 from .art.art import Art
 from .users.user import User
-from flask import Blueprint, render_template, request, url_for
+from flask import Blueprint, render_template, request, url_for, flash
 from flask_login import login_required, current_user
 import flask_login
 from werkzeug.utils import redirect
