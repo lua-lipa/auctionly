@@ -23,17 +23,25 @@ class Art(db.Model):
     description = db.Column(db.String(150))
     image = db.Column(db.String(150))
     art_category = db.Column(db.String(150))
-    
-    def __init__(self, art_name, owner_id, digital_image_path, description, art_category):
+
+    def __init__(self, name, owner_id, digital_image_path, description, art_category):
         """creates an art object"""
-        self.art_name = art_name
+        self.name = name
         self.owner_id = owner_id
-        self.digital_image_path = digital_image_path
+        self.image = digital_image_path
         self.description = description
         self.up_for_auction = False
         self.art_category = art_category
         self.art_status = "With owner"
         update_art_category_popularity(art_category)
+
+    def get_name(self):
+        """returns name of the art"""
+        return self.name
+
+    def set_name(self, new_name):
+        """sets name of the art"""
+        self.name = new_name
 
     def get_owner(self):
         """returns the owner of the art"""
@@ -45,11 +53,11 @@ class Art(db.Model):
 
     def get_image(self):
         """returns the image of the art to displayed to other users"""
-        return self.digital_image_path
+        return self.image
 
     def set_image(self, new_digital_image_path):
         """sets a new path for the image of the art"""
-        self.digital_image_path = new_digital_image_path
+        self.image = new_digital_image_path
 
     def get_description(self):
         """returns a description of the art to be displayed alongside the image"""
@@ -86,9 +94,6 @@ class Art(db.Model):
     def get_art_id(self):
         """returns the id of the art object, needed for the shipment service"""
         return self.id
-
-    def get_name(self):
-        return self.name
 
     def set_art_id(self, art_id):
         self.art_id = art_id
