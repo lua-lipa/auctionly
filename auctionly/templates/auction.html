@@ -51,10 +51,13 @@
                     </div>
                     </div>
                     <br><br>
-
-                    <form action="/upload">
+                    {% if not(bid_placed): %}
+                    <form method = "POST">
                         <input type="submit" value="Place €{{auction.get_current_bidding_price()}} Bid" />
                     </form>
+                    {% else %}
+                        <h8 class="mb-2" style="bold">You have succesfully placed a bid</h8>
+                    {% endif %}
                 </div>
                 <div class="col-lg-3 display: flex">
                     <div class="auctions-card">
