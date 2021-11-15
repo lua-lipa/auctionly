@@ -1,0 +1,125 @@
+body {
+  background-color: #f5f5f5f5;
+}
+
+html {
+  overflow-y: overlay;
+}
+
+.form-inline .form-control {
+  width: 300px;
+  border-radius: 50px;
+}
+
+#search-btn {
+  border-radius: 50px;
+}
+
+/* profile */
+
+.card-profile {
+  background: -webkit-linear-gradient(top left, #303030, #303030);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  height: 220px;
+  color: #ffffff;
+}
+
+.img-circle {
+  border-radius: 50%;
+  max-height: 100px;
+  max-width: 100px;
+}
+
+.card-about {
+  background-color: #ffffff;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  width: 100%;
+  padding: 20px;
+}
+
+.card-employmentHistory {
+  background-color: #ffffff;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  width: 100%;
+  padding: 20px;
+}
+
+.card-no-result {
+  background-color: #ffffff;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  width: 100%;
+  padding: 20px;
+}
+
+.size-change {
+  font-size: 10px;
+}
+
+.employmentHistory .employmentHistory-button {
+  background-color: #876e8f;
+  border-color: #876e8f;
+  border-radius: 50px;
+}
+
+.qualification .employmentHistory-button {
+  background-color: #876e8f;
+  border-color: #876e8f;
+  border-radius: 50px;
+}
+
+/* Side by side images*/
+.row {
+  display: flex;
+}
+
+.column {
+  border-radius: 10px;
+  flex: 33.33%;
+  padding: 5px;
+}
+.media-card {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+  background-color: white;
+}
+
+.media-card-small {
+  margin-top: 5px;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+  background-color: white;
+}
+
+.auctions-card {
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.center-small {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}

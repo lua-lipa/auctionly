@@ -1,20 +1,31 @@
+from auctionly import db
+import datetime
 
-class Auction:
-    def __init__(self, upload_time, end_time, seller_id, auction_id, art_id, 
-    auction_description, starter_price, bid_increment, auction_type, sold, buyer_id, bids, payment):
-        self.upload_time = upload_time
+class Auction(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    end_time = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    seller_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    art_id = db.Column(db.Integer, db.ForeignKey("art.id"))
+    description = db.Column(db.String(150))
+    starter_price = db.Column(db.String(150))
+    bid_increment = db.Column(db.String(150))
+    upload_time = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+
+    def __init__(self, end_time, seller_id, art_id, 
+    auction_description, starter_price, bid_increment):
+    # auction_description, starter_price, bid_increment, auction_type, sold, buyer_id, bids, payment):
         self.end_time = end_time
         self.seller_id = seller_id
-        self.auction_id = auction_id
         self.art_id = art_id
         self.auction_description = auction_description
         self.starter_price = starter_price
         self.bid_increment = bid_increment
-        self.auction_type = auction_type
-        self.sold = sold
-        self.buyer_id = buyer_id
-        self.bids = bids
-        self.payment = payment
+        # self.auction_type = auction_type
+        # self.sold = sold
+        # self.buyer_id = buyer_id
+        # self.bids = bids
+        # self.payment = payment
 
     def get_upload_time(self):
         return self.upload_time

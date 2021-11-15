@@ -18,13 +18,15 @@ def update_art_category_popularity(category):
 class Art(db.Model):
     """Art class implemented to create art objects that can be passed between users"""
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(150))
+    owner_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    name = db.Column(db.String(150))
     description = db.Column(db.String(150))
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    image = db.Column(db.String(150))
+    art_category = db.Column(db.String(150))
     
-    def __init__(self, art_id, owner_id, digital_image_path, description, art_category):
+    def __init__(self, art_name, owner_id, digital_image_path, description, art_category):
         """creates an art object"""
-        self.art_id = art_id
+        self.art_name = art_name
         self.owner_id = owner_id
         self.digital_image_path = digital_image_path
         self.description = description
@@ -83,4 +85,10 @@ class Art(db.Model):
 
     def get_art_id(self):
         """returns the id of the art object, needed for the shipment service"""
-        return self.art_id
+        return self.id
+
+    def get_name(self):
+        return self.name
+
+    def set_art_id(self, art_id):
+        self.art_id = art_id
