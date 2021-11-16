@@ -16,9 +16,6 @@
                             <div class="row">
                                 <h4 class="user-name"> {{ user.get_full_name() }} </h4>
                             </div>
-                            <div class="row">
-                                <p class="user-profession"> singer / artist </p>
-                            </div>
 
                             <div class="row">
                                 {% set count = namespace(value=0) %}
@@ -28,6 +25,16 @@
                                     {% endfor %}
                                     <!-- Change image in DB -->
                                     <p class="user-connections">Pieces owned: {{ count.value }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                {% set count = namespace(value=0) %}
+                                <div class="column">
+                                    {% for art in user_art %}
+                                        {% set count.value = count.value + 1 %}
+                                    {% endfor %}
+                                    <!-- Change image in DB -->
+                                    <p class="user-connections">Pieces up for Auction: {{ count.value }}</p>
                                 </div>
                             </div>
                         </div>
