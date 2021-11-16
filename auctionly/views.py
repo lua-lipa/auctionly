@@ -57,8 +57,11 @@ def rank_info():
 def profile():
     user = flask_login.current_user
     user_art = user.get_user_art()
+    user_auction_alerts = user.get_auction_notification_list()
+    user_pref = user.get_user_prefs()
+    feed = Feed(user_pref)
 
-    return render_template("profile.html", user=user, user_art=user_art)
+    return render_template("profile.html", user=user, user_art=user_art, feed=feed, alerts=user_auction_alerts)
 
 
 @views.route('/upload', methods=['GET', 'POST'])

@@ -82,34 +82,29 @@
                 </div>
 
                 
-                <div class="col-lg-3 display: flex">
+                <div class="col-lg-3">
                     <div class="auctions-card">
-                        <h3><a style="color: #000000; text-decoration: none;" type="submit" name="view">Auction Alerts</a></h3>
+                        <h3><a style="color: maroon; text-decoration: none;" type="submit" name="view">Auction Alerts</a></h3>
                         <br>
-                        <div class="media">
-                            <div class="media-body">
-                                <h5><a style="color: #000000; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h5>
-                                <img src="https://picsum.photos/600/500" class="img-fluid center-small" style="padding-top: 10px; align-items: center;">
-                                <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
+                        {% if not alerts: %}
+                            <div class="media">
+                                <div class="media-body">
+                                    <h5><a style="color: maroon; text-decoration: none;" type="submit" name="view">No alerts</a></h5>
+                                    <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">You can sign up to be alerted when exhibition pieces go on auction by clicking the "Notify me" button</a></h7>
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-                        <div class="media">
-                            <div class="media-body">
-                                <h5><a style="color: #000000; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h5>
-                                <img src="https://picsum.photos/600/500" class="img-fluid center-small" style="padding-top: 10px; align-items: center;">
-                                <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="media">
-                            <div class="media-body">
-                                <h5><a style="color: #000000; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h5>
-                                <img src="https://picsum.photos/600/500" class="img-fluid center-small" style="padding-top: 10px; align-items: center;">
-                                <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
-                            </div>
-                        </div>
-                        <hr>
+                        {% else: %}
+                            {% for notify in alerts %}
+                                <div class="media">
+                                    <div class="media-body">
+                                        <h5><a href="/auction?id={{ feed.get_art_auction_id(notify.get_art_id()) }}" style="color: maroon; text-decoration: none;" type="submit" name="view">{{ notify.get_name() }}</a></h5>
+                                        <img src="https://picsum.photos/600/500" class="img-fluid center-small" style="padding-top: 10px; align-items: center;">
+                                        <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">{{ feed.get_user_name(notify.get_owner()) }}</a></h7>
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                     </div>
             </div>
