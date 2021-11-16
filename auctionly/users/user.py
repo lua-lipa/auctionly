@@ -2,6 +2,7 @@
 from flask_login import UserMixin
 from .. import db
 from auctionly.art.art import Art
+from auctionly.art.art_notifications import Art_Notifications
 from auctionly.users.user_preference import User_Preference
 
 
@@ -59,3 +60,23 @@ class User(db.Model, UserMixin):
         for pref in user_pref:
             prefs.append(pref.get_name())
         return prefs
+    
+    def get_auction_notification_list(self):
+        user_subs = Art_Notifications.query.filter_by(user_id=self.id).all()
+        user_notifications = []
+        for sub in user_subs:
+            art_id = sub.get_art_id()
+            print("art_id")
+            print(art_id)
+            art = Art.query.filter_by(id=art_id).first()
+            if(art.get_up_for_auction() == "True"):
+                user_notifications.append(art)
+        return user_notifications
+    
+    def get_notification_list(self):
+        user_subs = Art_Notifications.query.filter_by(user_id=self.id).all()
+        subs_ids = []
+        for sub in user_subs:
+            art_id = sub.get_art_id()
+            subs_ids.append(art_id)
+        return subs_ids
