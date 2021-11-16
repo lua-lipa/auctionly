@@ -26,6 +26,7 @@
                                     {% for art in user_art %}
                                         {% set count.value = count.value + 1 %}
                                     {% endfor %}
+                                    <!-- Change image in DB -->
                                     <p class="user-connections">Pieces owned: {{ count.value }}</p>
                                 </div>
                             </div>
@@ -38,7 +39,7 @@
                                 <h8 class="mb-2">About</h8>
                             </div>
                             <div class="row">
-                                <p style="">its britney bitch</p>
+                                <p style="">about me</p>
                             </div>
                         </div>
                     </div>
@@ -54,7 +55,8 @@
                                 <div class="row">
                                     {% for art in user_art %}
                                     <div class="column">
-                                        <option value="{{ art.get_art_id() }}">{{ art.get_image() }}</option>
+                                        <!-- <option value="{{ art.get_art_id() }}">data:;base64,{{ art.get_image() }}</option> -->
+                                        <img src="{{ art.get_image() }}"/>
                                     </div>
                                     <!-- TODO: if art is up for auction, button pop up to notify -->
                                     {% endfor %}

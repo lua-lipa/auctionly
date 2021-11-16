@@ -7,6 +7,7 @@ from .system.feed import Feed
 from flask import Blueprint, render_template, request, url_for
 from flask_login import login_required
 import flask_login
+import base64
 from werkzeug.utils import redirect
 
 views = Blueprint('views', __name__)
@@ -30,13 +31,12 @@ def home():
 def rank_info():
     return render_template("rank_info.html")
 
+
 @views.route('/profile')
 @login_required
 def profile():
     user = flask_login.current_user
     user_art = user.get_user_art()
-    for art in user_art:
-        print(art.get_description())
 
     return render_template("profile.html", user=user, user_art=user_art)
 
