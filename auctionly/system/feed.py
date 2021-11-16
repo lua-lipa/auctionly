@@ -3,18 +3,23 @@ from auctionly.users.user import User
 from auctionly.auction.auction import Auction
 
 class Feed: 
-    def __init__(self, art_prefs):
+    def __init__(self, art_prefs, user_id):
         self.all_art = Art.query.all()
         self.art_for_feed = []
+        self.user_id = user_id
         for art in self.all_art:
             if art.get_art_category() in art_prefs:
-                self.art_for_feed.append(art)
+                if art.get_owner() != self.user_id:
+                    self.art_for_feed.append(art)
     
     def get_users_feed(self):
         return self.art_for_feed
     
     def get_feed(self):
-        return self.all_art
+        for art in self.all_art:
+            if art.get_owner() != self.user_id:
+                self.art_for_feed.append(art)
+        return self.art_for_feed
     
     def get_user_name(self, user_id):
         user = User.query.filter_by(id=user_id).first()

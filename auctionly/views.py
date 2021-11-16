@@ -19,7 +19,7 @@ views = Blueprint('views', __name__)
 def home():
     user = flask_login.current_user
     user_pref = user.get_user_prefs()
-    feed = Feed(user_pref)
+    feed = Feed(user_pref, flask_login.current_user.id)
     user_notifications = user.get_notification_list()
     user_auction_alerts = user.get_auction_notification_list()
     if not user_pref:
@@ -59,7 +59,7 @@ def profile():
     user_art = user.get_user_art()
     user_auction_alerts = user.get_auction_notification_list()
     user_pref = user.get_user_prefs()
-    feed = Feed(user_pref)
+    feed = Feed(user_pref, flask_login.current_user.id)
 
     return render_template("profile.html", user=user, user_art=user_art, feed=feed, alerts=user_auction_alerts)
 
