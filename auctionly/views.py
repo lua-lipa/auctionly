@@ -2,6 +2,8 @@ import datetime
 from . import db
 from .auction.auction import Auction
 from .art.art import Art
+from .users.user import User
+from .system.feed import Feed
 from flask import Blueprint, render_template, request, url_for
 from flask_login import login_required
 import flask_login
@@ -13,14 +15,20 @@ views = Blueprint('views', __name__)
 @views.route('/')
 @login_required
 def home():
-    return render_template("home.html")
+    user = flask_login.current_user
+    user_pref = user.get_user_prefs()
+    feed = Feed(user_pref)
+    if not user_pref:
+        user_feed = feed.get_feed()
+    else:
+        user_feed = feed.get_users_feed()
+    return render_template("home.html", feed_art=user_feed, feed=feed)
 
 
 @views.route('/rank_info')
 @login_required
 def rank_info():
     return render_template("rank_info.html")
-
 
 @views.route('/profile')
 @login_required

@@ -1,5 +1,4 @@
 from .. import db
-from .user import User
 
 class User_Preference(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -10,6 +9,6 @@ class User_Preference(db.Model):
         """creates an art object"""
         self.user_id = user_id
         self.art_pref = art_pref
-
-    def get_user_art_pref(self, u_id):
-        return User_Preference.query.filter_by(user_id=u_id).all()
+    
+    def get_name(self):
+        return self.art_pref
