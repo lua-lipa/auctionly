@@ -105,21 +105,30 @@ class Auction(db.Model):
     def get_bids(self):
         return Bid.query.filter_by(auction_id=self.get_auction_id()).all()
 
-    def get_latest_bid(self):
+    def get_highest_bid(self):
+        """ returns the BID object of the highest bid """
         if (self.get_number_of_bids() == 0):
-            return 0
-        bids = Bid.query.filter_by(auction_id=self.get_auction_id()).all()
-        highest_bid_amount = int(self.get_starter_price())
-        print(highest_bid_amount)
-        for bid in bids:
-            print(bid.get_amount())
-            if (bid.get_amount() > highest_bid_amount):
-                highest_bid_amount = bid.get_amount()
+            return None
 
-        return highest_bid_amount
+        bids = self.get_bids()
+        highest_bid_amount = int(self.get_starter_price())
+        highest_bid = None
+        for bid in bids:
+            if (bid.get_amount() >= highest_bid_amount):
+                highest_bid_amount = bid.get_amount()
+                highest_bid = bid
+
+        return highest_bid
+
+    def get_latest_bid(self):
+        """ returns the HIGHEST BIDDING AMOUNT placed on the item """
+        highest_bid = self.get_highest_bid()
+        if (highest_bid == None):
+            return 0
+        else:
+            return highest_bid.get_amount()
 
     def get_current_bidding_price(self):
-        pass
         if len(self.get_bids()) == 0:
             return self.get_starter_price()
         else:
@@ -134,17 +143,20 @@ class Auction(db.Model):
         return art.get_name()
 
     def place_bid(self, user_id):
+
+        # get the amount of the next bid to be placed
         amount = self.get_current_bidding_price()
         time = datetime.datetime.now()
 
-        bid_received = Payment.receive_bid_from_user(user_id, amount)
+        # call the payment system to freeze amount from the user, if the user has the money available
+        bid_received = Payment.receive_bid_from_user(
+            user_id=user_id, amount=amount, auction_id=self.get_auction_id(), highest_bid=self.get_highest_bid())
 
+        # on success receive the bid and update database
         if (bid_received):
-            bid = Bid(user_id=user_id, auction_id=self.get_auction_id(),
-                      amount=amount, time=time)
 
-            db.session.add(bid)
-            db.session.commit()
+            print("bid received")
         else:
+            # otherwise let the user know that they were not able to place their bid
             print(
                 "BID NOT RECEIVED FROM THE USER. WE WERE NOT ABLE TO HOLD THE BIDDING AMOUNT FROM YOUR ACCOUNT")
