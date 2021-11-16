@@ -33,6 +33,7 @@ def home():
             attach = Art_Notifications(flask_login.current_user.id, art_id)
             db.session.add(attach)
             db.session.commit()
+            user_notifications = user.get_notification_list()
             message = "You have been added to the notifications list for " +  Art.query.filter_by(id=art_id).first().get_name() + "."
             flash(message, category="success") # category="success"
         elif(notify == "False"):
@@ -99,6 +100,9 @@ def auction_art():
                               description, starting_price, bid_increment)
 
         db.session.add(new_auction)
+        db.session.commit()
+        art = Art.query.filter_by(id=art_id).first()
+        art.up_for_auction = "True"
         db.session.commit()
 
     user = flask_login.current_user
