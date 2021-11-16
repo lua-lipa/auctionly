@@ -21,7 +21,13 @@
                             </div>
 
                             <div class="row">
-                                <p class="user-connections">Pieces owned: 3</p>
+                                {% set count = namespace(value=0) %}
+                                <div class="column">
+                                    {% for art in user_art %}
+                                        {% set count.value = count.value + 1 %}
+                                    {% endfor %}
+                                    <p class="user-connections">Pieces owned: {{ count.value }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -38,9 +44,9 @@
                     </div>
                     </div>
 
-                    <!-- ADD Employment History -->
+                    <!-- Art -->
                     <div class="row mt-3">
-                        <div class="card-employmentHistory">
+                        <div class="card-art">
                             <div class="col-9">
                                 <div class="row">
                                     <h8>Art Gallery</h8>
@@ -50,6 +56,7 @@
                                     <div class="column">
                                         <option value="{{ art.get_art_id() }}">{{ art.get_image() }}</option>
                                     </div>
+                                    <!-- TODO: if art is up for auction, button pop up to notify -->
                                     {% endfor %}
                                 </div>
                             </div>
@@ -64,6 +71,8 @@
                         <input type="submit" value="Upload Art" />
                     </form>
                 </div>
+
+                
                 <div class="col-lg-3 display: flex">
                     <div class="auctions-card">
                         <h3><a style="color: #000000; text-decoration: none;" type="submit" name="view">Auction Alerts</a></h3>
