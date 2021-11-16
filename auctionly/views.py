@@ -32,6 +32,7 @@ def profile():
 
     return render_template("profile.html", user=user, user_art=user_art)
 
+
 @views.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload_art():
