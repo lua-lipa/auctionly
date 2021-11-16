@@ -10,14 +10,15 @@
                 <div class="col-lg-9 pr-5">
                     <div class="row card-profile">
                         <div class="col-3 d-flex justify-content-center align-items-center">
-                            <img src="../static/images/itsbritneybich.jpg" class="img-circle" />
+                            <img src="https://picsum.photos/600/500" class="img-circle" style="padding-top: 10px; align-items: center;">
+
                         </div>
                         <div class="col-6 pl-3 d-flex justify-content-center align-items-start flex-column">
                             <div class="row">
                                 <h4 class="user-name"> title: {{auction.get_title()}} </h4>
                             </div>
                             <div class="row">
-                                <p class="user-profession"> Owner: {{seller.get_name()}} </p>
+                                <p class="user-profession"> Owner: {{seller.get_full_name()}} </p>
                             </div>
                             <div class="row">
                                 <p class="user-connections"> Latest bid: {{auction.get_latest_bid()}} </p>

@@ -14,7 +14,6 @@ class Bid(db.Model):
 
     def __init__(self, auction_id, time, user_id, amount):
         """creates a bid object"""
-        # self.id = id
         self.auction_id = auction_id
         self.time = time
         self.user_id = user_id
@@ -22,3 +21,9 @@ class Bid(db.Model):
 
     def get_amount(self):
         return self.amount
+
+    def get_time(self):
+        return self.time
+
+    def get_bid_id(self):
+        return self.id
