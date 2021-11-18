@@ -1,6 +1,7 @@
 from .. import db
 from datetime import datetime
 from auctionly.bid.bid import Bid
+import sqlalchemy as sa
 
 
 class Payment(db.Model):
@@ -26,7 +27,7 @@ class Payment(db.Model):
             return False
 
         # check the highest bid that has been placed on this auction (this is the money we have frozen)
-        if (highest_bid != None):
+        if (highest_bid != None and Payment.table_exists(Payment)):
             previous_bid_id = highest_bid.get_bid_id()
             frozen_payment = Payment.query.filter_by(
                 bid_id=previous_bid_id).first()
@@ -62,4 +63,7 @@ class Payment(db.Model):
     def able_to_receive_payment(user_id, amount):
         print("checking if the payment of €", str(amount),
               " is able to be received from user ", user_id)
+        return True
+
+    def table_exists(model_class):
         return True
