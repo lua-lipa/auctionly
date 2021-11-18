@@ -5,9 +5,9 @@
         <link href="../static/css/style.css" rel="stylesheet">
       </head>
     <body>
-        <div class="alert alert-success" role="alert" style="padding-top: 10px; margin-top: 20px;">
+        <!-- <div class="alert alert-success" role="alert" style="padding-top: 10px; margin-top: 20px;">
             Congratulations! You've ranked amongst the Auctionly top 3 users. <a href="/rank_info" class="alert-link">Learn more</a>.
-          </div>
+          </div> -->
         <div class="container">
           <div class="row">
                 <div class="col-lg-9">
@@ -29,9 +29,13 @@
                                     <h8 style="color: maroon;">Status: <h8 style="color: black;">{%if art.get_up_for_auction() == "False":%} On Exhibition {%else:%} On Auction {%endif%}</h8>
                                     <p style="font-size: 13px; padding-top: 10px; color: black;">{{ art.get_description() }}</p>
                                     {%if art.get_up_for_auction() == "False":%}
-                                    <a href="/rank_info" role="button"><button type="button" class="btn btn-view-more">Notify me</button></a>
+                                        {%if art.get_art_id() is in notifications:%}
+                                        <a href="/?art_id={{ art.get_art_id() }}&notify=False" role="button"><button type="button" class="btn btn-view-more">Don't notify me</button></a>
+                                        {%else:%}
+                                        <a href="/?art_id={{ art.get_art_id() }}&notify=True" role="button"><button type="button" class="btn btn-view-more">Notify me</button></a>
+                                        {%endif%}
                                     {%else:%}
-                                    <a href="/auction?id={{ feed.get_art_auction_id(art.get_art_id()) }}" role="button"><button type="button" class="btn btn-view-more">Go to auction</button></a>
+                                        <a href="/auction?id={{ feed.get_art_auction_id(art.get_art_id()) }}" role="button"><button type="button" class="btn btn-view-more">Go to auction</button></a>
                                     {%endif%}
                                 </div>
                             </div>
@@ -42,30 +46,25 @@
                 <div class="auctions-card">
                     <h3><a style="color: maroon; text-decoration: none;" type="submit" name="view">Auction Alerts</a></h3>
                     <br>
-                    <div class="media">
-                        <div class="media-body">
-                            <h5><a style="color: maroon; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h5>
-                            <img src="https://picsum.photos/600/500" class="img-fluid center-small" style="padding-top: 10px; align-items: center;">
-                            <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
+                    {% if not alerts: %}
+                        <div class="media">
+                            <div class="media-body">
+                                <h5><a style="color: maroon; text-decoration: none;" type="submit" name="view">No alerts</a></h5>
+                                <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">You can sign up to be alerted when exhibition pieces go on auction by clicking the "Notify me" button</a></h7>
+                            </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="media">
-                        <div class="media-body">
-                            <h5><a style="color: maroon; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h5>
-                            <img src="https://picsum.photos/600/500" class="img-fluid center-small" style="padding-top: 10px; align-items: center;">
-                            <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="media">
-                        <div class="media-body">
-                            <h5><a style="color: maroon; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h5>
-                            <img src="https://picsum.photos/600/500" class="img-fluid center-small" style="padding-top: 10px; align-items: center;">
-                            <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
-                        </div>
-                    </div>
-                    <hr>
+                    {% else: %}
+                        {% for notify in alerts %}
+                            <div class="media">
+                                <div class="media-body">
+                                    <h5><a href="/auction?id={{ feed.get_art_auction_id(notify.get_art_id()) }}" style="color: maroon; text-decoration: none;" type="submit" name="view">{{ notify.get_name() }}</a></h5>
+                                    <img src="https://picsum.photos/600/500" class="img-fluid center-small" style="padding-top: 10px; align-items: center;">
+                                    <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">{{ feed.get_user_name(notify.get_owner()) }}</a></h7>
+                                </div>
+                            </div>
+                            <hr>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 </div>
             </div>

@@ -2,9 +2,10 @@ import datetime
 from . import db
 from .auction.auction import Auction
 from .art.art import Art
+from .art.art_notifications import Art_Notifications
 from .users.user import User
 from .system.feed import Feed
-from flask import Blueprint, render_template, request, url_for
+from flask import Blueprint, render_template, request, url_for, flash
 from flask_login import login_required
 import flask_login
 import base64
@@ -13,17 +14,36 @@ from werkzeug.utils import redirect
 views = Blueprint('views', __name__)
 
 
-@views.route('/')
+@views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
     user = flask_login.current_user
     user_pref = user.get_user_prefs()
-    feed = Feed(user_pref)
+    feed = Feed(user_pref, flask_login.current_user.id)
+    user_notifications = user.get_notification_list()
+    user_auction_alerts = user.get_auction_notification_list()
     if not user_pref:
         user_feed = feed.get_feed()
     else:
         user_feed = feed.get_users_feed()
-    return render_template("home.html", feed_art=user_feed, feed=feed)
+    if (request.args.get("art_id") != None):
+        art_id = request.args.get('art_id')
+        notify = request.args.get('notify')
+        if(notify == "True"):
+            attach = Art_Notifications(flask_login.current_user.id, art_id)
+            db.session.add(attach)
+            db.session.commit()
+            user_notifications = user.get_notification_list()
+            message = "You have been added to the notifications list for " +  Art.query.filter_by(id=art_id).first().get_name() + "."
+            flash(message, category="success") # category="success"
+        elif(notify == "False"):
+            Art_Notifications.query.filter((Art_Notifications.art_id==art_id) & (Art_Notifications.user_id==flask_login.current_user.id)).delete()
+            user_notifications = user.get_notification_list()
+            message = "You have been removed from the notifications list for " +  Art.query.filter_by(id=art_id).first().get_name() + "."
+            flash(message, category="error") # category="success"
+
+        
+    return render_template("home.html", feed_art=user_feed, feed=feed, notifications=user_notifications, alerts=user_auction_alerts)
 
 
 @views.route('/rank_info')
@@ -37,8 +57,11 @@ def rank_info():
 def profile():
     user = flask_login.current_user
     user_art = user.get_user_art()
+    user_auction_alerts = user.get_auction_notification_list()
+    user_pref = user.get_user_prefs()
+    feed = Feed(user_pref, flask_login.current_user.id)
 
-    return render_template("profile.html", user=user, user_art=user_art)
+    return render_template("profile.html", user=user, user_art=user_art, feed=feed, alerts=user_auction_alerts)
 
 
 @views.route('/upload', methods=['GET', 'POST'])
@@ -80,6 +103,9 @@ def auction_art():
                               description, starting_price, bid_increment)
 
         db.session.add(new_auction)
+        db.session.commit()
+        art = Art.query.filter_by(id=art_id).first()
+        art.up_for_auction = "True"
         db.session.commit()
 
     user = flask_login.current_user
