@@ -166,10 +166,24 @@ class Auction(db.Model):
         # user is a buyer
         # user is not the author of the auction
         # the auction is still in progress
-
-        is_a_buyer = hasattr(user, '__Buyer__')
-        time_left = self.get_end_time() - datetime.datetime.now()
-        if (not is_a_buyer or time_left <= 0 or user.get_user_id() == self.get_seller_id()):
+        if (not self.is_bidder_a_buyer):
             return False
+        elif (self.has_timed_out()):
+            return False
+        elif (self.is_own_auction(user)):
+            return False
+        else:
+            return True
 
-        return True
+    def is_bidder_a_buyer(self):
+        # is_a_buyer = hasattr(user, '__Buyer__')
+        is_a_buyer = True
+        return is_a_buyer
+
+    def is_own_auction(self, cur_user: User):
+        if(str(cur_user.get_id()) == str(self.get_seller_id())):
+            return True
+        return False
+
+    def has_timed_out(self):
+        return self.get_end_time() <= datetime.datetime.now()
