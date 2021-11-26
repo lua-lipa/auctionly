@@ -14,6 +14,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
     last_name = db.Column(db.String(150))
+    user_type = db.Column(db.String)
 
     def __init__(self, first_name, last_name, email, password):
         self.first_name = first_name
@@ -23,7 +24,7 @@ class User(db.Model, UserMixin):
         self.feed = []
 
     def get_user_id(self):
-        return self.user_id
+        return self.id
 
     def get_name(self):
         return self.first_name
@@ -80,3 +81,6 @@ class User(db.Model, UserMixin):
             art_id = sub.get_art_id()
             subs_ids.append(art_id)
         return subs_ids
+    
+    def get_user_type(self):
+        return self.user_type
