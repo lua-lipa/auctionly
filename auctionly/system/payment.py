@@ -14,13 +14,17 @@ class Payment(db.Model):
     time = db.Column(db.DateTime, default=datetime.utcnow)
     amount = db.Column(db.Integer)
     bid_id = db.Column(db.Integer, db.ForeignKey("bid.id"))
+    seller_paid = db.Column(db.Integer)
+    service_fee_paid = db.Column(db.Integer)
 
-    def __init__(self, user_id, auction_id, time, amount, bid_id):
+    def __init__(self, user_id, auction_id, time, amount, bid_id, seller_paid=0, service_fee_paid=0):
         self.user_id = user_id
         self.auction_id = auction_id
         self.time = time
         self.amount = amount
         self.bid_id = bid_id
+        self.seller_paid = seller_paid
+        self.service_fee_paid = service_fee_paid
 
     def receive_bid_from_user(user_id, amount, auction_id, highest_bid):
         if (not Payment.able_to_receive_payment(user_id, amount)):
@@ -54,6 +58,9 @@ class Payment(db.Model):
         print("Succesfully received the bid from the user")
         return True
 
+    def get_amount(self):
+        return self.get_amount()
+
     def get_time(self):
         return self.time
 
@@ -67,3 +74,21 @@ class Payment(db.Model):
 
     def table_exists(model_class):
         return True
+
+    def pay_seller(auction):
+        service_fee_fraction = 0.5
+
+        # fetch the bid that has been placed on the auction
+        payment = Payment.query.filter_by(
+            auction_id=auction.get_auction_id).first()
+
+        if (payment is not None):
+            amount_bidder_pays = payment.get_amount()
+            amount_paid_for_service = amount_bidder_pays * service_fee_fraction
+            amount_paid_to_seller = (
+                amount_bidder_pays - amount_paid_for_service)
+
+            payment.seller_paid = amount_paid_to_seller
+            payment.service_fee_paid = amount_paid_for_service
+
+            db.session.commit()
