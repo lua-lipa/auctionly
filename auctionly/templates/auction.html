@@ -56,8 +56,12 @@
                     <form method = "POST">
                         <input type="submit" value="Place €{{auction.get_current_bidding_price()}} Bid" />
                     </form>
-                    {% else %}
-                        <h8 class="mb-2" style="bold">You have succesfully placed a bid</h8>
+                    {% elif auction.has_timed_out(): %}
+                        <h8 class="mb-2" style="bold">This auction has ended.</h8>
+                    {% elif auction.is_own_auction(user): %}
+                    <form method = "POST">
+                        <input type="submit" value="Edit Auction" />
+                    </form>
                     {% endif %}
                 </div>
                 <div class="col-lg-3 display: flex">
