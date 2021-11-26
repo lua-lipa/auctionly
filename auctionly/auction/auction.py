@@ -3,6 +3,7 @@ import datetime
 from auctionly.bid.bid import Bid
 from auctionly.art.art import Art
 from auctionly.users.user import User
+# from auctionly.users.buyer import Buyer
 from auctionly.system.payment import Payment
 
 
@@ -160,3 +161,15 @@ class Auction(db.Model):
             # otherwise let the user know that they were not able to place their bid
             print(
                 "BID NOT RECEIVED FROM THE USER. WE WERE NOT ABLE TO HOLD THE BIDDING AMOUNT FROM YOUR ACCOUNT")
+
+    def able_to_place_bid(self, user: User):
+        # user is a buyer
+        # user is not the author of the auction
+        # the auction is still in progress
+
+        is_a_buyer = hasattr(user, '__Buyer__')
+        time_left = self.get_end_time() - datetime.datetime.now()
+        if (not is_a_buyer or time_left <= 0 or user.get_user_id() == self.get_seller_id()):
+            return False
+
+        return True
