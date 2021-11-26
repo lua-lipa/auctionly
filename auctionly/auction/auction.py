@@ -99,9 +99,13 @@ class Auction(db.Model):
     def get_time_left(self):
         """ returns how much time is left before the auction ends """
         """ by default it is set to last 3 days since the start of the auction """
-        time_out = self.get_upload_time() + datetime.timedelta(days=3)
+        # time_out = self.get_upload_time() + datetime.timedelta(days=3)
+        time_out = self.get_end_time()
         now = datetime.datetime.now()
-        return (time_out - now)
+        if (now >= time_out):
+            return "None."
+        else:
+            return (time_out - now)
 
     def get_bids(self):
         return Bid.query.filter_by(auction_id=self.get_auction_id()).all()
