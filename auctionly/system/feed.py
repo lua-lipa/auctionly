@@ -5,13 +5,13 @@ from auctionly.auction.auction import Auction
 
 class Feed: 
     """Feed class implemented to create feeds for users"""
-    def __init__(self, art_prefs, user_id):
+    def __init__(self, user_id):
         """creates a feed object"""
         self.all_art = Art.query.all()
         self.art_for_feed = []
         self.user_id = user_id
     
-    def get_users_feed(self):
+    def get_users_feed(self, art_prefs):
         """returns feed thats catered to the users preferences"""
         for art in self.all_art:
             if art.get_art_category() in art_prefs:

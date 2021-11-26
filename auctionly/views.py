@@ -23,13 +23,14 @@ def home():
     
     user = flask_login.current_user
     user_pref = user.get_user_prefs()
-    feed = Feed(user_pref, flask_login.current_user.id)
+    feed = Feed(flask_login.current_user.id)
     user_notifications = user.get_notification_list()
     user_auction_alerts = user.get_auction_notification_list()
-    if not user_pref:
+    if len(user_pref) == 0:
         user_feed = feed.get_feed()
     else:
-        user_feed = feed.get_users_feed()
+        user_feed = feed.get_users_feed(user_pref)
+    
     if (request.args.get("art_id") != None):
         art_id = request.args.get('art_id')
         notify = request.args.get('notify')
@@ -67,10 +68,6 @@ def home():
         if(ranking == "Third place"):
             message = "Congratulations! You've been ranked 3rd place in Auctionly's " + user_type +"'s ranking. As reward you'll recieve 10% off commission."
         flash(message, category="success") # category="success"
-    
-    message = "You have been removed from the notifications list for " + \
-        Art.query.filter_by(id=art_id).first().get_name() + "."
-    flash(message, category="error")  # category="success"
 
     return render_template("home.html", feed_art=user_feed, feed=feed, notifications=user_notifications, alerts=user_auction_alerts)
 
