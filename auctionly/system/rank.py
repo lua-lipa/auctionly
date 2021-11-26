@@ -6,7 +6,7 @@ import datetime
 from auctionly.users.user import User
 
 class Rank():
-"""Rank class implemented to handle the ranking of users"""
+    """Rank class implemented to handle the ranking of users"""
     def __init__(self):
         """created a rank object to be used in other classes"""
         table_populated = Ranked_User.query.all() # checking if there is data in the tables before trying to extract it

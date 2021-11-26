@@ -18,7 +18,7 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
-"""Handles the home page of the website"""
+    """Handles the home page of the website"""
     # extracting logged in user information
     user = flask_login.current_user
     user_pref = user.get_user_prefs()
