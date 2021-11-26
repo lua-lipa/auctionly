@@ -141,6 +141,7 @@ def auction():
             return render_template("edit-auction.html")
         else:
             auction.place_bid(user_id)
+            return render_template("auction.html", auction=auction,  seller=seller, bid_placed=bids_placed_by_user, user=user)
 
     return render_template("auction.html", auction=auction,  seller=seller, bid_placed=bids_placed_by_user, user=user)
 
@@ -149,25 +150,17 @@ def auction():
 @login_required
 def edit_auction():
     if request.method == 'POST':
-        starting_price = request.form.get('startingPrice')
-        bid_increment = request.form.get('bidIncrement')
-        end_time = datetime.datetime.strptime(
+        auction_id = request.args.get('id')
+
+        auction = Auction.query.filter_by(auction_id=auction_id).first()
+        print(auction)
+
+        auction.starting_price = request.form.get('startingPrice')
+        auction.bid_increment = request.form.get('bidIncrement')
+        auction.end_time = datetime.datetime.strptime(
             str(request.form.get('endTime')), "%Y-%m-%dT%H:%M")
-        description = request.form.get('description')
-        seller_id = flask_login.current_user.id
+        auction.description = request.form.get('description')
 
-    #     new_auction = Auction(end_time, seller_id, art_id,
-    #                           description, starting_price, bid_increment)
-
-    #     db.session.add(new_auction)
-    #     db.session.commit()
-    #     art = Art.query.filter_by(id=art_id).first()
-    #     art.up_for_auction = "True"
-    #     db.session.commit()
-
-    # user = flask_login.current_user
-    # user_art = user.get_user_art()
-    # for art in user_art:
-    #     print(art.get_description())
+        db.session.commit()
 
     return render_template("edit-auction.html")
