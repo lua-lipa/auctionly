@@ -11,7 +11,7 @@ class Ranked_User(db.Model):
     def __init__(self, user_id, rank, user_type):
         self.user_id = user_id
         self.rank = rank
-        self.date = datetime.today().strftime('%Y-%m-%d')
+        self.date = datetime.today()
         self.user_type = user_type
 
     def get_user_id(self):
