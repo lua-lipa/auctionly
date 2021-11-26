@@ -137,7 +137,6 @@ def auction():
         print("U: " + str(user_id))
         print("SL: " + str(auction.get_seller_id()))
         if (str(user_id) == str(auction.get_seller_id())):
-            print("EDITING")
             return render_template("edit-auction.html")
         else:
             auction.place_bid(user_id)
@@ -152,7 +151,7 @@ def edit_auction():
     if request.method == 'POST':
         auction_id = request.args.get('id')
 
-        auction = Auction.query.filter_by(auction_id=auction_id).first()
+        auction = Auction.query.filter_by(id=auction_id).first()
         print(auction)
 
         auction.starting_price = request.form.get('startingPrice')

@@ -21,7 +21,6 @@ class Auction(db.Model):
 
     def __init__(self, end_time, seller_id, art_id,
                  description, starter_price, bid_increment):
-        # auction_description, starter_price, bid_increment, auction_type, sold, buyer_id, bids, payment):
         self.end_time = end_time
         self.seller_id = seller_id
         self.art_id = art_id
@@ -191,3 +190,9 @@ class Auction(db.Model):
 
     def has_timed_out(self):
         return self.get_end_time() <= datetime.datetime.now()
+
+    def payment_has_been_claimed(self):
+        return False
+
+    def pay_seller(self):
+        Payment.pay_seller(self)
