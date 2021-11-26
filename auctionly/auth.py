@@ -78,9 +78,9 @@ def sign_up():
             user_id = user.get_user_id()
             user_db = User.query.filter_by(id=user_id).first()
             if isinstance(user, Seller):
-                user_db.type = "Seller"
+                user_db.user_type = "Seller"
             elif isinstance(user, Buyer):
-                user_db.type = "Buyer"
+                user_db.user_type = "Buyer"
             
             db.session.commit()
 

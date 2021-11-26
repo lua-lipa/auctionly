@@ -47,12 +47,15 @@ def home():
             flash(message, category="error") # category="success"
     
     rank = Rank()
+    ranking = "No rank"
     if(user.get_user_type() == "Seller"):
         ranking = rank.get_seller_rank(flask_login.current_user.id)
         user_type = "seller"
     elif(user.get_user_type() == "Buyer"):
         ranking = rank.get_buyer_rank(flask_login.current_user.id)
         user_type = "buyer"
+    else:
+        print("No type")
 
     if(ranking != "No rank"):
         if(ranking == "First place"):
