@@ -6,8 +6,6 @@ from .art.art_notifications import Art_Notifications
 from .users.user import User
 from .system.feed import Feed
 from .system.rank import Rank
-from .system.ranked_user import Ranked_User
-from .system.sale import Sale
 from flask import Blueprint, render_template, request, url_for, flash
 from flask_login import login_required
 import flask_login
@@ -20,19 +18,28 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
-    
+"""Handles the home page of the website"""
+    # extracting logged in user information
     user = flask_login.current_user
     user_pref = user.get_user_prefs()
-    feed = Feed(user_pref, flask_login.current_user.id)
-    user_notifications = user.get_notification_list()
-    user_auction_alerts = user.get_auction_notification_list()
-    if not user_pref:
+    
+    # prepping the users feed
+    feed = Feed(flask_login.current_user.id)
+    if len(user_pref) == 0:
         user_feed = feed.get_feed()
     else:
-        user_feed = feed.get_users_feed()
+        user_feed = feed.get_users_feed(user_pref)
+    
+    # prepping the users notifications
+    user_notifications = user.get_notification_list()
+    user_auction_alerts = user.get_auction_notification_list()
+    
+    # checking if a notify request had been made on an art piece
     if (request.args.get("art_id") != None):
         art_id = request.args.get('art_id')
         notify = request.args.get('notify')
+        
+        # checking is the reuquest is to be added to the arts observer list and handling it
         if(notify == "True"):
             attach = Art_Notifications(flask_login.current_user.id, art_id)
             db.session.add(attach)
@@ -40,14 +47,17 @@ def home():
             user_notifications = user.get_notification_list()
             message = "You have been added to the notifications list for " + \
                 Art.query.filter_by(id=art_id).first().get_name() + "."
-            flash(message, category="success")  # category="success"
+            flash(message, category="success")
+        
+        # checking is the reuquest is to be removed from the arts observer list and handling it
         elif(notify == "False"):
             Art_Notifications.query.filter((Art_Notifications.art_id == art_id) & (
                 Art_Notifications.user_id == flask_login.current_user.id)).delete()
             user_notifications = user.get_notification_list()
             message = "You have been removed from the notifications list for " +  Art.query.filter_by(id=art_id).first().get_name() + "."
-            flash(message, category="error") # category="success"
+            flash(message, category="error")
     
+    # handling the ranking system and extracting whether the user is a ranked user or not
     rank = Rank()
     ranking = "No rank"
     if(user.get_user_type() == "Seller"):
@@ -59,6 +69,7 @@ def home():
     else:
         print("No type")
 
+    # handling the users ranking status
     if(ranking != "No rank"):
         if(ranking == "First place"):
             message = "Congratulations! You've been ranked 1st place in Auctionly's " + user_type +"'s ranking. As reward you'll recieve 30% off commission."
@@ -66,11 +77,7 @@ def home():
             message = "Congratulations! You've been ranked 2nd place in Auctionly's " + user_type +"'s ranking. As reward you'll recieve 20% off commission."
         if(ranking == "Third place"):
             message = "Congratulations! You've been ranked 3rd place in Auctionly's " + user_type +"'s ranking. As reward you'll recieve 10% off commission."
-        flash(message, category="success") # category="success"
-    
-    message = "You have been removed from the notifications list for " + \
-        Art.query.filter_by(id=art_id).first().get_name() + "."
-    flash(message, category="error")  # category="success"
+        flash(message, category="success")
 
     return render_template("home.html", feed_art=user_feed, feed=feed, notifications=user_notifications, alerts=user_auction_alerts)
 
@@ -133,6 +140,8 @@ def auction_art():
 
         db.session.add(new_auction)
         db.session.commit()
+
+        # updating that this art piece is now on auction. iniates notifying the observers
         art = Art.query.filter_by(id=art_id).first()
         art.up_for_auction = "True"
         db.session.commit()
