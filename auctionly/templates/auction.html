@@ -52,12 +52,23 @@
                     </div>
                     </div>
                     <br><br>
-                    {% if not(bid_placed): %}
+                    {% if auction.able_to_place_bid(user): %}
                     <form method = "POST">
                         <input type="submit" value="Place €{{auction.get_current_bidding_price()}} Bid" />
                     </form>
-                    {% else %}
-                        <h8 class="mb-2" style="bold">You have succesfully placed a bid</h8>
+                    {% elif auction.has_timed_out() and auction.is_own_auction(user): %}
+                        {% if not auction.payment_has_been_claimed() %}
+                            <h8 class="mb-2" style="bold">Your auction has ended. Claim payment below. </h8>
+                            <form method = "POST">
+                                <input type="submit" value="Claim Payment" />
+                            </form>
+                        {% else %}
+                            <h8 class="mb-2" style="bold">Your auction has ended. You have already claimed rewards. </h8>
+                        {% endif %}
+                    {% elif auction.is_own_auction(user): %}
+                    <form method = "POST">
+                        <input type="submit" value="Edit Auction" />
+                    </form>
                     {% endif %}
                 </div>
                 <div class="col-lg-3 display: flex">

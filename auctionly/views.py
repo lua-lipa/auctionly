@@ -38,10 +38,12 @@ def home():
             db.session.add(attach)
             db.session.commit()
             user_notifications = user.get_notification_list()
-            message = "You have been added to the notifications list for " +  Art.query.filter_by(id=art_id).first().get_name() + "."
-            flash(message, category="success") # category="success"
+            message = "You have been added to the notifications list for " + \
+                Art.query.filter_by(id=art_id).first().get_name() + "."
+            flash(message, category="success")  # category="success"
         elif(notify == "False"):
-            Art_Notifications.query.filter((Art_Notifications.art_id==art_id) & (Art_Notifications.user_id==flask_login.current_user.id)).delete()
+            Art_Notifications.query.filter((Art_Notifications.art_id == art_id) & (
+                Art_Notifications.user_id == flask_login.current_user.id)).delete()
             user_notifications = user.get_notification_list()
             message = "You have been removed from the notifications list for " +  Art.query.filter_by(id=art_id).first().get_name() + "."
             flash(message, category="error") # category="success"
@@ -65,6 +67,10 @@ def home():
         if(ranking == "Third place"):
             message = "Congratulations! You've been ranked 3rd place in Auctionly's " + user_type +"'s ranking. As reward you'll recieve 10% off commission."
         flash(message, category="success") # category="success"
+    
+    message = "You have been removed from the notifications list for " + \
+        Art.query.filter_by(id=art_id).first().get_name() + "."
+    flash(message, category="error")  # category="success"
 
     return render_template("home.html", feed_art=user_feed, feed=feed, notifications=user_notifications, alerts=user_auction_alerts)
 
@@ -149,21 +155,38 @@ def auction():
 
     auction = Auction.query.filter_by(id=auction_id).first()
 
-    if request.method == 'POST':
-        # user clicked PLACE BET
-        auction.place_bid(user_id)
-
-    print(auction)
     seller_id = auction.get_seller_id()
     seller = User.query.filter_by(id=seller_id).first()
-
     bids_placed_by_user = Auction.query.filter_by(seller_id=user_id).first()
 
-    user_placed_highest_bid = False
+    if request.method == 'POST':
+        # user clicked PLACE BID or EDIT AUCTION
+        print("U: " + str(user_id))
+        print("SL: " + str(auction.get_seller_id()))
+        if (str(user_id) == str(auction.get_seller_id())):
+            return render_template("edit-auction.html")
+        else:
+            auction.place_bid(user_id)
+            return render_template("auction.html", auction=auction,  seller=seller, bid_placed=bids_placed_by_user, user=user)
 
-    # need to add a check that the user has placed the highest bid
+    return render_template("auction.html", auction=auction,  seller=seller, bid_placed=bids_placed_by_user, user=user)
 
-    if (bids_placed_by_user != None):
-        user_placed_highest_bid = True
 
-    return render_template("auction.html", auction=auction,  seller=seller, bid_placed=bids_placed_by_user)
+@views.route('/edit-auction', methods=['GET', 'POST'])
+@login_required
+def edit_auction():
+    if request.method == 'POST':
+        auction_id = request.args.get('id')
+
+        auction = Auction.query.filter_by(id=auction_id).first()
+        print(auction)
+
+        auction.starting_price = request.form.get('startingPrice')
+        auction.bid_increment = request.form.get('bidIncrement')
+        auction.end_time = datetime.datetime.strptime(
+            str(request.form.get('endTime')), "%Y-%m-%dT%H:%M")
+        auction.description = request.form.get('description')
+
+        db.session.commit()
+
+    return render_template("edit-auction.html")
