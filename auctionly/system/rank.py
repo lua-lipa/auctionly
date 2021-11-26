@@ -1,23 +1,30 @@
+"""module containing rank class"""
 from .. import db
 from .ranked_user import Ranked_User
 from .sale import Sale
 import datetime
 from auctionly.users.user import User
-from auctionly.users.buyer import Buyer
-from auctionly.users.seller import Seller
 
 class Rank():
-
+"""Rank class implemented to handle the ranking of users"""
     def __init__(self):
-        table_populated = Ranked_User.query.all()
+        """created a rank object to be used in other classes"""
+        table_populated = Ranked_User.query.all() # checking if there is data in the tables before trying to extract it
         if table_populated:
+            # getting the ranked sellers
             self.first_place_seller = Ranked_User.query.filter((Ranked_User.rank==1) & (Ranked_User.user_type=='Seller')).first()
             self.second_place_seller = Ranked_User.query.filter((Ranked_User.rank==2) & (Ranked_User.user_type=='Seller')).first()
             self.third_place_seller = Ranked_User.query.filter((Ranked_User.rank==3) & (Ranked_User.user_type=='Seller')).first()
+            
+            # getting the ranked buyers
             self.first_place_buyer = Ranked_User.query.filter((Ranked_User.rank==1) & (Ranked_User.user_type=='Buyer')).first()
             self.second_place_buyer = Ranked_User.query.filter((Ranked_User.rank==2) & (Ranked_User.user_type=='Buyer')).first()
             self.third_place_buyer = Ranked_User.query.filter((Ranked_User.rank==3) & (Ranked_User.user_type=='Buyer')).first()
+            
+            # getting the date of the last ranking
             self.date = self.first_place_buyer.get_date_ranked()
+
+            # checking if its been a week and time for a new ranking
             rank = ((datetime.datetime.now() - datetime.timedelta(days=7)) == self.date)
             if rank:
                 self.rank_users()
@@ -25,13 +32,23 @@ class Rank():
             self.rank_users()
 
     def rank_users(self):
+        """ranks buyers and sellers according to their sale and purchase history"""
+        
+        # getting all the users so we can find the top ones
         users = User.query.all()
+        
+        # we're only ranking 3 sellers and 3 buyers
         count = 3
+        
+        # initialising sellers arrays
         sellers = []
         top_ranked_sellers = []
+        
+        # initialising buyers arrays
         buyers = []
         top_ranked_buyers = []
         
+        # looping through users and seperating them according to their type
         for user in users:
             if user.get_user_type() == 'Seller':
                 sellers.append(user)
@@ -82,8 +99,10 @@ class Rank():
             elif(buys > buys_3 and buys < buys_2):
                 top_ranked_buyers[2] = buyer
         
+        # empty the table in preparation for new ranking
         Ranked_User.query.delete()
         
+        # add in the newly ranked sellers
         ranked_seller_1 = Ranked_User(top_ranked_sellers[0].get_user_id(), 1, "Seller")
         ranked_seller_2 = Ranked_User(top_ranked_sellers[1].get_user_id(), 2, "Seller")
         ranked_seller_3 = Ranked_User(top_ranked_sellers[2].get_user_id(), 3, "Seller")
@@ -91,6 +110,7 @@ class Rank():
         db.session.add(ranked_seller_2)
         db.session.add(ranked_seller_3)
 
+        # add in the newly ranked buyers
         ranked_buyer_1 = Ranked_User(top_ranked_buyers[0].get_user_id(), 1, "Buyer")
         ranked_buyer_2 = Ranked_User(top_ranked_buyers[1].get_user_id(), 2, "Buyer")
         ranked_buyer_3 = Ranked_User(top_ranked_buyers[2].get_user_id(), 3, "Buyer")
@@ -101,6 +121,7 @@ class Rank():
         db.session.commit()
         
     def get_seller_rank(self, user_id):
+        """returns the ranking of a specified seller"""
         rank = "No rank"
         if self.first_place_seller.get_user_id() == user_id:
             rank = "First place"
@@ -112,6 +133,7 @@ class Rank():
         return rank
     
     def get_buyer_rank(self, user_id):
+        """returns the ranking of a specified buyer"""
         rank = "No rank"
         if self.first_place_buyer.get_user_id() == user_id:
             rank = "First place"
