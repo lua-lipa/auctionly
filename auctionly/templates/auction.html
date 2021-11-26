@@ -52,7 +52,7 @@
                     </div>
                     </div>
                     <br><br>
-                    {% if not(bid_placed): %}
+                    {% if auction.able_to_place_bid(user): %}
                     <form method = "POST">
                         <input type="submit" value="Place €{{auction.get_current_bidding_price()}} Bid" />
                     </form>
