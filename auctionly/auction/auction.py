@@ -169,11 +169,7 @@ class Auction(db.Model):
         # user is a buyer
         # user is not the author of the auction
         # the auction is still in progress
-        if (not self.is_bidder_a_buyer):
-            return False
-        elif (self.has_timed_out()):
-            return False
-        elif (self.is_own_auction(user)):
+        if (not self.is_bidder_a_buyer or self.has_timed_out() or self.is_own_auction(user)):
             return False
         else:
             return True
