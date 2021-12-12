@@ -3,6 +3,8 @@ import datetime
 from auctionly.bid.bid import Bid
 from auctionly.art.art import Art
 from auctionly.users.user import User
+# from auctionly.users.buyer import Buyer
+from auctionly.system.payment import Payment
 
 
 class Auction(db.Model):
@@ -19,7 +21,6 @@ class Auction(db.Model):
 
     def __init__(self, end_time, seller_id, art_id,
                  description, starter_price, bid_increment):
-        # auction_description, starter_price, bid_increment, auction_type, sold, buyer_id, bids, payment):
         self.end_time = end_time
         self.seller_id = seller_id
         self.art_id = art_id
@@ -97,30 +98,97 @@ class Auction(db.Model):
     def get_time_left(self):
         """ returns how much time is left before the auction ends """
         """ by default it is set to last 3 days since the start of the auction """
-        time_out = self.get_upload_time() + datetime.timedelta(days=3)
+        # time_out = self.get_upload_time() + datetime.timedelta(days=3)
+        time_out = self.get_end_time()
         now = datetime.datetime.now()
-        return (time_out - now)
+        if (now >= time_out):
+            return "None."
+        else:
+            return (time_out - now)
 
     def get_bids(self):
         return Bid.query.filter_by(auction_id=self.get_auction_id()).all()
 
-    def get_latest_bid(self):
+    def get_highest_bid(self):
+        """ returns the BID object of the highest bid """
         if (self.get_number_of_bids() == 0):
+            return None
+
+        bids = self.get_bids()
+        highest_bid_amount = int(self.get_starter_price())
+        highest_bid = None
+        for bid in bids:
+            if (bid.get_amount() >= highest_bid_amount):
+                highest_bid_amount = bid.get_amount()
+                highest_bid = bid
+
+        return highest_bid
+
+    def get_latest_bid(self):
+        """ returns the HIGHEST BIDDING AMOUNT placed on the item """
+        highest_bid = self.get_highest_bid()
+        if (highest_bid == None):
             return 0
-        return Bid.query.filter_by(auction_id=self.get_auction_id()).all()
+        else:
+            return highest_bid.get_amount()
 
     def get_current_bidding_price(self):
         if len(self.get_bids()) == 0:
             return self.get_starter_price()
         else:
             latest_bid = self.get_latest_bid()
-            return latest_bid + self.get_bid_increment()
+            return int(latest_bid) + int(self.get_bid_increment())
 
     def get_number_of_bids(self):
         return len(self.get_bids())
 
     def get_title(self):
         art = Art.query.filter_by(id=self.get_art_id()).one()
-        # return art.get_name()
-        # placeholder for now
-        return "Mona Lisa"
+        return art.get_name()
+
+    def place_bid(self, user_id):
+
+        # get the amount of the next bid to be placed
+        amount = self.get_current_bidding_price()
+        time = datetime.datetime.now()
+
+        # call the payment system to freeze amount from the user, if the user has the money available
+        bid_received = Payment.receive_bid_from_user(
+            user_id=user_id, amount=amount, auction_id=self.get_auction_id(), highest_bid=self.get_highest_bid())
+
+        # on success receive the bid and update database
+        if (bid_received):
+
+            print("bid received")
+        else:
+            # otherwise let the user know that they were not able to place their bid
+            print(
+                "BID NOT RECEIVED FROM THE USER. WE WERE NOT ABLE TO HOLD THE BIDDING AMOUNT FROM YOUR ACCOUNT")
+
+    def able_to_place_bid(self, user: User):
+        # user is a buyer
+        # user is not the author of the auction
+        # the auction is still in progress
+        if (not self.is_bidder_a_buyer or self.has_timed_out() or self.is_own_auction(user)):
+            return False
+        else:
+            return True
+
+    def is_bidder_a_buyer(self):
+        # is_a_buyer = hasattr(user, '__Buyer__')
+        is_a_buyer = True
+        return is_a_buyer
+
+    def is_own_auction(self, cur_user: User):
+        if(str(cur_user.get_id()) == str(self.get_seller_id())):
+            return True
+        return False
+
+    def has_timed_out(self):
+        return self.get_end_time() <= datetime.datetime.now()
+
+    def payment_has_been_claimed(self):
+        return False
+
+    def pay_seller(self):
+        Payment.pay_seller(self)

@@ -14,14 +14,28 @@
                         </div>
                         <div class="col-6 pl-3 d-flex justify-content-center align-items-start flex-column">
                             <div class="row">
-                                <h4 class="user-name"> {{user_name}} </h4>
-                            </div>
-                            <div class="row">
-                                <p class="user-profession"> singer / artist </p>
+                                <h4 class="user-name"> {{ user.get_full_name() }} </h4>
                             </div>
 
                             <div class="row">
-                                <p class="user-connections">Pieces owned: 3</p>
+                                {% set count = namespace(value=0) %}
+                                <div class="column">
+                                    {% for art in user_art %}
+                                        {% set count.value = count.value + 1 %}
+                                    {% endfor %}
+                                    <!-- Change image in DB -->
+                                    <p class="user-connections">Pieces owned: {{ count.value }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                {% set count = namespace(value=0) %}
+                                <div class="column">
+                                    {% for art in user_art %}
+                                        {% set count.value = count.value + 1 %}
+                                    {% endfor %}
+                                    <!-- Change image in DB -->
+                                    <p class="user-connections">Pieces up for Auction: {{ count.value }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -32,29 +46,27 @@
                                 <h8 class="mb-2">About</h8>
                             </div>
                             <div class="row">
-                                <p style="">its britney bitch</p>
+                                <p style="">about me</p>
                             </div>
                         </div>
                     </div>
                     </div>
 
-                    <!-- ADD Employment History -->
+                    <!-- Art -->
                     <div class="row mt-3">
-                        <div class="card-employmentHistory">
+                        <div class="card-art">
                             <div class="col-9">
                                 <div class="row">
                                     <h8>Art Gallery</h8>
                                 </div>
                                 <div class="row">
+                                    {% for art in user_art %}
                                     <div class="column">
-                                    <img src="../static/images/img_snow.jpg" alt="Snow" style="width:100%">
+                                        <!-- <option value="{{ art.get_art_id() }}">data:;base64,{{ art.get_image() }}</option> -->
+                                        <img src="{{ art.get_image() }}"/>
                                     </div>
-                                    <div class="column">
-                                    <img src="../static/images/img_forest.jpg" alt="Forest" style="width:100%">
-                                    </div>
-                                    <div class="column">
-                                    <img src="../static/images/img_mountains.jpg" alt="Mountains" style="width:100%">
-                                    </div>
+                                    <!-- TODO: if art is up for auction, button pop up to notify -->
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="col-3 d-flex justify-content-end">
@@ -68,34 +80,31 @@
                         <input type="submit" value="Upload Art" />
                     </form>
                 </div>
-                <div class="col-lg-3 display: flex">
+
+                
+                <div class="col-lg-3">
                     <div class="auctions-card">
-                        <h3><a style="color: #000000; text-decoration: none;" type="submit" name="view">Auction Alerts</a></h3>
+                        <h3><a style="color: maroon; text-decoration: none;" type="submit" name="view">Auction Alerts</a></h3>
                         <br>
-                        <div class="media">
-                            <div class="media-body">
-                                <h5><a style="color: #000000; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h5>
-                                <img src="https://picsum.photos/600/500" class="img-fluid center-small" style="padding-top: 10px; align-items: center;">
-                                <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
+                        {% if not alerts: %}
+                            <div class="media">
+                                <div class="media-body">
+                                    <h5><a style="color: maroon; text-decoration: none;" type="submit" name="view">No alerts</a></h5>
+                                    <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">You can sign up to be alerted when exhibition pieces go on auction by clicking the "Notify me" button</a></h7>
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-                        <div class="media">
-                            <div class="media-body">
-                                <h5><a style="color: #000000; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h5>
-                                <img src="https://picsum.photos/600/500" class="img-fluid center-small" style="padding-top: 10px; align-items: center;">
-                                <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="media">
-                            <div class="media-body">
-                                <h5><a style="color: #000000; text-decoration: none;" type="submit" name="view">Mona Lisa</a></h5>
-                                <img src="https://picsum.photos/600/500" class="img-fluid center-small" style="padding-top: 10px; align-items: center;">
-                                <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">Someone</a></h7>
-                            </div>
-                        </div>
-                        <hr>
+                        {% else: %}
+                            {% for notify in alerts %}
+                                <div class="media">
+                                    <div class="media-body">
+                                        <h5><a href="/auction?id={{ feed.get_art_auction_id(notify.get_art_id()) }}" style="color: maroon; text-decoration: none;" type="submit" name="view">{{ notify.get_name() }}</a></h5>
+                                        <img src="https://picsum.photos/600/500" class="img-fluid center-small" style="padding-top: 10px; align-items: center;">
+                                        <h7><a style="text-decoration: none; padding-top: 10px;" type="submit" name="view">{{ feed.get_user_name(notify.get_owner()) }}</a></h7>
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                     </div>
             </div>

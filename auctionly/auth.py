@@ -76,6 +76,14 @@ def sign_up():
             login_user(user, remember=True)
 
             user_id = user.get_user_id()
+            user_db = User.query.filter_by(id=user_id).first()
+            if isinstance(user, Seller):
+                user_db.user_type = "Seller"
+            elif isinstance(user, Buyer):
+                user_db.user_type = "Buyer"
+            
+            db.session.commit()
+
             if StillLife:
                 pref = User_Preference(user_id, "Still Life")
                 db.session.add(pref)
