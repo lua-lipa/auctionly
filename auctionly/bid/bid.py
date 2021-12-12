@@ -1,9 +1,10 @@
-from .. import db
+""" handles the creation and placement of bids """
 from datetime import datetime
+from .. import db
 
 
 class Bid(db.Model):
-
+    """ this is a class that creates a bid object, it is connected to SQLAlchemy """
     __tablename__ = 'bid'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -18,15 +19,19 @@ class Bid(db.Model):
         self.time = time
         self.user_id = user_id
         self.amount = amount
-    
+
     def get_user_id(self):
+        """ returns the user id of the user who placed the bid """
         return self.user_id
 
     def get_amount(self):
+        """ returns the bidding amount """
         return self.amount
 
     def get_time(self):
+        """ returns the bidding time """
         return self.time
 
     def get_bid_id(self):
+        """ returns the bid id """
         return self.id
