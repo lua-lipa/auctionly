@@ -92,12 +92,6 @@ def home():
                            alerts=user_auction_alerts)
 
 
-@views.route('/rank_info')
-@login_required
-def rank_info():
-    return render_template("rank_info.html")
-
-
 @views.route('/profile')
 @login_required
 def profile():
