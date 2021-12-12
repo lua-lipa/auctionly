@@ -18,6 +18,9 @@ class Bid(db.Model):
         self.time = time
         self.user_id = user_id
         self.amount = amount
+    
+    def get_user_id(self):
+        return self.user_id
 
     def get_amount(self):
         return self.amount

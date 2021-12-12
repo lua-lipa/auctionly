@@ -167,14 +167,21 @@ def auction():
     bids_placed_by_user = Auction.query.filter_by(seller_id=user_id).first()
 
     if request.method == 'POST':
-        # user clicked PLACE BID or EDIT AUCTION
-        print("U: " + str(user_id))
-        print("SL: " + str(auction.get_seller_id()))
-        if (str(user_id) == str(auction.get_seller_id())):
-            return render_template("edit-auction.html")
-        else:
-            auction.place_bid(user_id)
-            return render_template("auction.html", auction=auction,  seller=seller, bid_placed=bids_placed_by_user, user=user)
+        if 'claim_payment' in request.form:
+            print("claimed payment!")
+
+        elif 'claim_art' in request.form:
+            print("claimed art!")
+
+        elif 'auction_action' in request.form:
+            # user clicked PLACE BID or EDIT AUCTION
+            print("U: " + str(user_id))
+            print("SL: " + str(auction.get_seller_id()))
+            if (str(user_id) == str(auction.get_seller_id())):
+                return render_template("edit-auction.html")
+            else:
+                auction.place_bid(user_id)
+                return render_template("auction.html", auction=auction,  seller=seller, bid_placed=bids_placed_by_user, user=user)
 
     return render_template("auction.html", auction=auction,  seller=seller, bid_placed=bids_placed_by_user, user=user)
 
