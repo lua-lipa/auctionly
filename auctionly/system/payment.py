@@ -1,5 +1,6 @@
 """ payment system handles receiving, freezing and
 sending money through our system """
+from auctionly import fee_constants
 from datetime import datetime
 from ..bid.bid import Bid
 from .. import db
@@ -46,7 +47,8 @@ class Payment(db.Model):
         # (this is the money we have frozen)
         if highest_bid is not None:
             previous_bid_id = highest_bid.get_bid_id()
-            frozen_payment = self.query.filter_by(bid_id=previous_bid_id).first()
+            frozen_payment = self.query.filter_by(
+                bid_id=previous_bid_id).first()
 
             frozen_payment.unfreeze_payment()
 
@@ -55,7 +57,8 @@ class Payment(db.Model):
 
         # freeze the new amount from the new user for this bid and place it into the database
         time = datetime.now()
-        bid = Bid(user_id=user_id, auction_id=auction_id, amount=amount, time=time)
+        bid = Bid(user_id=user_id, auction_id=auction_id,
+                  amount=amount, time=time)
 
         db.session.add(bid)
         db.session.commit()
@@ -98,10 +101,11 @@ class Payment(db.Model):
 
     def pay_seller(self, auction):
         """send the money placed by the bidder to the seller"""
-        service_fee_fraction = 0.5
+        service_fee_fraction = fee_constants.AUCTION_FEE_FRACTION
 
         # fetch the bid that has been placed on the auction
-        payment = self.query.filter_by(auction_id=auction.get_auction_id).first()
+        payment = self.query.filter_by(
+            auction_id=auction.get_auction_id).first()
 
         if payment is not None:
             amount_bidder_pays = payment.get_amount()
