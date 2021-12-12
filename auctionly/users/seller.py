@@ -50,28 +50,8 @@ class Seller(User):
     def add_art_sold(self, art_sold):
         self.art_sold.append(art_sold)
 
-    def get_money_earned(self):
-        # this calls the treasury system
-        # money_earned = treasury.lookup(user_id)
-        pass
-
-    def add_money_earned(self):
-        pass
-
-    # As a seller I want to be able to receive incentives for my loyalty so that I have added benefits.
-    def update_loyalty_points(self):
-        # calls the ranking system
-        pass
-
     # As a seller I want to be able to ship the art safely so that it doesn’t get damaged.
     def ship_art(self, art_id):
         # calls the art shipment system
         shipment = Shipment()
         shipment.ship_art(art_id)
-
-    # As a seller I want to be able to update my ongoing auctions properties so that I can help it do better to increase my chances of a higher bid.
-    def update_art_auction_property(self):
-        # calls the Auction class to update properties
-        pass
-
-    # As a seller I want to be able to complete a sale of my art so I can earn money.

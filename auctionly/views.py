@@ -82,12 +82,6 @@ def home():
     return render_template("home.html", feed_art=user_feed, feed=feed, notifications=user_notifications, alerts=user_auction_alerts)
 
 
-@views.route('/rank_info')
-@login_required
-def rank_info():
-    return render_template("rank_info.html")
-
-
 @views.route('/profile')
 @login_required
 def profile():
