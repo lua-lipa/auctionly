@@ -192,3 +192,11 @@ class Auction(db.Model):
 
     def pay_seller(self):
         Payment.pay_seller(self)
+
+    def has_user_won_auction(self, cur_user: User):
+        if self.has_timed_out():
+            winning_bid = self.get_highest_bid()
+            if winning_bid != None:
+                if(str(cur_user.get_id()) == str(winning_bid.get_user_id())):
+                    return True
+        return False
