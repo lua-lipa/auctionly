@@ -568,4 +568,3 @@ overgeneral-exceptions=BaseException,
                        Exception
 
 ignored-classes=SQLObject,Registrant,scoped_session
-ignored-classes=scoped_session
