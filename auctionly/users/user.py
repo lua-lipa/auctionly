@@ -69,7 +69,7 @@ class User(db.Model, UserMixin):
 
     def get_auction_notification_list(self):
         """ returns the notifications of the user """
-        user_subs = Art_Notifications.query.filter_by(user_id=self.id).all()
+        user_subs = ArtNotifications.query.filter_by(user_id=self.id).all()
         user_notifications = []
         for sub in user_subs:
             art_id = sub.get_art_id()
@@ -82,7 +82,7 @@ class User(db.Model, UserMixin):
 
     def get_notification_list(self):
         """ returns the list of notifications of the user """
-        user_subs = Art_Notifications.query.filter_by(user_id=self.id).all()
+        user_subs = ArtNotifications.query.filter_by(user_id=self.id).all()
         subs_ids = []
         for sub in user_subs:
             art_id = sub.get_art_id()

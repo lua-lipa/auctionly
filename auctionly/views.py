@@ -41,7 +41,7 @@ def home():
         # checking is the reuquest is to be added to the arts observer list
         # and handling it
         if(notify == "True"):
-            attach = Art_Notifications(flask_login.current_user.id, art_id)
+            attach = ArtNotifications(flask_login.current_user.id, art_id)
             db.session.add(attach)
             db.session.commit()
             user_notifications = user.get_notification_list()
@@ -52,8 +52,8 @@ def home():
         # checking is the reuquest is to be removed from the arts observer list
         # and handling it
         elif(notify == "False"):
-            Art_Notifications.query.filter((Art_Notifications.art_id == art_id) & (
-                Art_Notifications.user_id == flask_login.current_user.id)).delete()
+            ArtNotifications.query.filter((ArtNotifications.art_id == art_id) & (
+                ArtNotifications.user_id == flask_login.current_user.id)).delete()
             user_notifications = user.get_notification_list()
             message = "You have been removed from the notifications list for " + \
                 Art.query.filter_by(id=art_id).first().get_name() + "."

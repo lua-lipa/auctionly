@@ -1,8 +1,9 @@
 """module containing Ranked User class"""
-from .. import db
+# pylint: disable=E0402
 from datetime import datetime
+from .. import db
 
-class Ranked_User(db.Model):
+class RankedUser(db.Model):
     """Ranked user class used to make a table in the database to store the users that are ranked"""
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
@@ -24,11 +25,11 @@ class Ranked_User(db.Model):
     def get_date_ranked(self):
         """returns the date they were last ranked"""
         return self.date
-    
+
     def get_rank(self):
         """returns the ranking they recieved 1, 2, 3"""
         return self.rank
-    
+
     def get_user_type(self):
         """returns the type of user it is"""
         return self.user_type
