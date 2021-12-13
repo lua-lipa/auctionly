@@ -1,23 +1,28 @@
-class AuctionState(object):
-    name = "state"
+from abc import ABC, abstractmethod
 
-    def set_state(self, state):
-        self.__class__ = state
 
-    def __str__(self):
-      return self.name
+class IAuctionState(ABC):
+    @staticmethod
+    @abstractmethod
+    def __str__():
+        "Set the default method"
 
-class Started(AuctionState):
-    name = "started"
+class Started(IAuctionState):
+    def __str__():
+        "Started"
 
-class Ended(AuctionState):
-    name = "ended"
+class Ended(IAuctionState):
+    def __str__():
+        "Ended"
 
-class Shipped(AuctionState):
-    name ="shipped"
+class Shipped(IAuctionState):
+    def __str__():
+        "Shipped"
 
-class Authenticated(AuctionState):
-    name = "authenticated"
+class Authenticated(IAuctionState):
+    def __str__():
+        "Authenticated"
 
-class Rejected(AuctionState):
-    name = "rejected"
+class Rejected(IAuctionState):
+    def __str__():
+        "Rejected"

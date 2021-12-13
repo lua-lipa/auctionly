@@ -9,7 +9,7 @@ from auctionly.system.shipment import Shipment
 from auctionly.system.shipment import Authentication
 from auctionly.users.user import User
 from auctionly.system.payment import Payment
-from auction.auction_state.auction_state import *
+from auctionly.auction.auction_state import *
 
 class Auction(db.Model):
     """this class handles the auctioning process, everything from setting up an auction
