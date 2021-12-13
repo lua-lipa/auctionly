@@ -37,5 +37,7 @@ class Feed:
     def get_art_auction_id(self, art_id):
         """returns the auction id of a particular art piece"""
         auction = Auction.query.filter_by(art_id=art_id).first()
+        if not auction:
+            return
         auction_id = auction.get_auction_id()
         return auction_id

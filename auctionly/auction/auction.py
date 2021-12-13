@@ -10,7 +10,6 @@ from auctionly.users.user import User
 from auctionly.system.payment import Payment
 from auctionly.auction.auction_state import *
 
-
 class Auction(db.Model):
     """this class handles the auctioning process, everything from setting up an auction
     to placing a bid on an auction and finalizing an auction."""
