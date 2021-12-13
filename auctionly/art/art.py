@@ -1,8 +1,9 @@
 """module containing art class"""
-from auctionly import db
+from auctionly import db # pylint: disable=E0401
 
 class Art(db.Model):
     """Art class implemented to create art objects that can be passed between users"""
+    # pylint: disable=E1101
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     name = db.Column(db.String(150))
@@ -11,7 +12,7 @@ class Art(db.Model):
     art_category = db.Column(db.String(150))
     up_for_auction = db.Column(db.String(5))
 
-    def __init__(self, name, owner_id, digital_image_path, description, art_category):
+    def __init__(self, name, owner_id, digital_image_path, description, art_category): # pylint: disable=R0913
         """creates an art object"""
         self.name = name
         self.owner_id = owner_id

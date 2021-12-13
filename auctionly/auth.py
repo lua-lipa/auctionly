@@ -3,7 +3,7 @@ from flask_login import login_user, login_required, logout_user
 from .users.buyer import Buyer
 from .users.seller import Seller
 from .users.user import User
-from .users.user_preference import User_Preference
+from .users.user_preference import UserPreference
 from . import db
 
 auth = Blueprint('auth', __name__)

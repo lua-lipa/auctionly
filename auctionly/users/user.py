@@ -1,8 +1,10 @@
 """ User class implemented to provide parent class methods to its children """
+# pylint: disable=E0401
+# pylint: disable=E0402
 from flask_login import UserMixin
 from auctionly.art.art import Art
-from auctionly.art.art_notifications import Art_Notifications
-from auctionly.users.user_preference import User_Preference
+from auctionly.art.art_notifications import ArtNotifications
+from auctionly.users.user_preference import UserPreference
 from .. import db
 
 
@@ -61,7 +63,7 @@ class User(db.Model, UserMixin):
 
     def get_user_prefs(self):
         """ returns the preferences of the user """
-        user_pref = User_Preference.query.filter_by(user_id=self.id).all()
+        user_pref = UserPreference.query.filter_by(user_id=self.id).all()
         prefs = []
         for pref in user_pref:
             prefs.append(pref.get_name())
@@ -69,7 +71,7 @@ class User(db.Model, UserMixin):
 
     def get_auction_notification_list(self):
         """ returns the notifications of the user """
-        user_subs = Art_Notifications.query.filter_by(user_id=self.id).all()
+        user_subs = ArtNotifications.query.filter_by(user_id=self.id).all()
         user_notifications = []
         for sub in user_subs:
             art_id = sub.get_art_id()
@@ -82,7 +84,7 @@ class User(db.Model, UserMixin):
 
     def get_notification_list(self):
         """ returns the list of notifications of the user """
-        user_subs = Art_Notifications.query.filter_by(user_id=self.id).all()
+        user_subs = ArtNotifications.query.filter_by(user_id=self.id).all()
         subs_ids = []
         for sub in user_subs:
             art_id = sub.get_art_id()
