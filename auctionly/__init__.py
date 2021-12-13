@@ -1,12 +1,15 @@
+""" initializign the application and database for the system """
+from os import path
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from os import path
 from flask_login import LoginManager
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
 
+
 def create_app():
+    """ initializing the application """
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'alkjsfkalalfks'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
@@ -14,7 +17,7 @@ def create_app():
 
     from .views import views
     from .auth import auth
-    
+
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
@@ -32,7 +35,9 @@ def create_app():
 
     return app
 
+
 def create_database(app):
+    """ initializing the database """
     if not path.exists('website/' + DB_NAME):
         with app.app_context():
             db.create_all(app=app)
