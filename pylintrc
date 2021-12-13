@@ -87,7 +87,11 @@ disable=raw-checker-failed,
         deprecated-pragma,
         use-symbolic-message-instead,
         no-member,
-        relative-beyond-top-level
+        relative-beyond-top-level,
+        too-many-arguments,
+        import-outside-toplevel,
+        too-many-public-methods,
+        too-few-public-methods 
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
