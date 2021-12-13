@@ -1,6 +1,6 @@
-from auction import Auction
-from datetime import date, datetime 
-from bid import bid 
+from datetime import datetime
+from .auction import Auction
+
 
 class DutchAuction(Auction):
     def set_bid_increment(self):
@@ -16,7 +16,7 @@ class DutchAuction(Auction):
     def set_start_time(self):
         self.start_time = datetime.now()
 
-    def get_latest_bid(self): 
+    def get_latest_bid(self):
         pass
 
     def add_bid(self, bid):

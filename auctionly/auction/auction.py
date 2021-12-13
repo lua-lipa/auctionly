@@ -1,4 +1,6 @@
 """ this file holds the auction class which handles the auctioning process """
+import collections
+from auctionly.bid.biditerator import BidIterator
 import datetime
 from auctionly import db
 from auctionly.bid.bid import Bid
@@ -14,7 +16,8 @@ class Auction(db.Model):
     to placing a bid on an auction and finalizing an auction."""
 
     id = db.Column(db.Integer, primary_key=True)
-    end_time = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    end_time = db.Column(db.DateTime, nullable=False,
+                         default=datetime.datetime.utcnow)
     seller_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     art_id = db.Column(db.Integer, db.ForeignKey("art.id"))
     description = db.Column(db.String(150))
@@ -243,3 +246,11 @@ class Auction(db.Model):
                 if str(cur_user.get_id()) == str(winning_bid.get_user_id()):
                     return True
         return False
+
+    def iterate_over_bids(self):
+        """ method to print amounts of all the bids that have been placed on the auction """
+        collection = self.get_bids()
+        iterator = BidIterator(collection=collection, reverse=False)
+        while (iterator.__hasNext__):
+            print(iterator.__next__.get_amount())
+        iterator.__next__()
