@@ -36,7 +36,6 @@ class Rank():
     # pylint: disable=R0914
     # pylint: disable=R0912
     # pylint: disable=R0915
-    # pylint: disable=R0201
     def rank_users(self):
         """ranks buyers and sellers according to their sale and purchase history"""
 
@@ -109,20 +108,20 @@ class Rank():
         RankedUser.query.delete()
 
         # add in the newly ranked sellers
-        ranked_seller_1 = RankedUser(top_ranked_sellers[0].get_user_id(), 1, "Seller")
-        ranked_seller_2 = RankedUser(top_ranked_sellers[1].get_user_id(), 2, "Seller")
-        ranked_seller_3 = RankedUser(top_ranked_sellers[2].get_user_id(), 3, "Seller")
-        db.session.add(ranked_seller_1)
-        db.session.add(ranked_seller_2)
-        db.session.add(ranked_seller_3)
+        self.first_place_seller = RankedUser(top_ranked_sellers[0].get_user_id(), 1, "Seller")
+        self.second_place_seller = RankedUser(top_ranked_sellers[1].get_user_id(), 2, "Seller")
+        self.third_place_seller = RankedUser(top_ranked_sellers[2].get_user_id(), 3, "Seller")
+        db.session.add(self.first_place_seller)
+        db.session.add(self.second_place_seller)
+        db.session.add(self.third_place_seller)
 
         # add in the newly ranked buyers
-        ranked_buyer_1 = RankedUser(top_ranked_buyers[0].get_user_id(), 1, "Buyer")
-        ranked_buyer_2 = RankedUser(top_ranked_buyers[1].get_user_id(), 2, "Buyer")
-        ranked_buyer_3 = RankedUser(top_ranked_buyers[2].get_user_id(), 3, "Buyer")
-        db.session.add(ranked_buyer_1)
-        db.session.add(ranked_buyer_2)
-        db.session.add(ranked_buyer_3)
+        self.first_place_buyer = RankedUser(top_ranked_buyers[0].get_user_id(), 1, "Buyer")
+        self.second_place_buyer = RankedUser(top_ranked_buyers[1].get_user_id(), 2, "Buyer")
+        self.third_place_buyer = RankedUser(top_ranked_buyers[2].get_user_id(), 3, "Buyer")
+        db.session.add(self.first_place_buyer)
+        db.session.add(self.second_place_buyer)
+        db.session.add(self.third_place_buyer)
 
         db.session.commit()
 
