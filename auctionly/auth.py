@@ -1,7 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from flask_login import login_user, login_required, logout_user, current_user
-
-#from .models import User
+from flask_login import login_user, login_required, logout_user
 from .users.buyer import Buyer
 from .users.seller import Seller
 from .users.user import User
@@ -10,8 +8,10 @@ from . import db
 
 auth = Blueprint('auth', __name__)
 
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    """ authenticating login """
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -30,28 +30,33 @@ def login():
 
     return render_template("login.html")
 
+
 @auth.route('/logout')
 @login_required
 def logout():
+    """ logging out ending the session """
     logout_user()
     return redirect(url_for('auth.login'))
 
+
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
+    """ sign up page """
     if request.method == 'POST':
         email = request.form.get('email')
         first_name = request.form.get('firstName')
         last_name = request.form.get('lastName')
         password = request.form.get('password')
-        accountType = request.form.get('accountType')
-        StillLife = request.form.get("Still Life") != None
-        Landscape = request.form.get("Landscape") != None
-        Seascape = request.form.get("Seascape") != None
-        Portraiture = request.form.get("Portraiture") != None
-        Abstract = request.form.get("Abstract") != None
-        
+        account_type = request.form.get('accountType')
+        still_life = request.form.get("Still Life") is not None
+        landscape = request.form.get("Landscape") is not None
+        seascape = request.form.get("Seascape") is not None
+        portraiture = request.form.get("Portraiture") is not None
+        abstract = request.form.get("Abstract") is not None
+
         if len(first_name) < 4:
-            flash("First name must be greater than 3 characters.", category="error") # category="success"
+            flash("First name must be greater than 3 characters.",
+                  category="error")  # category="success"
         else:
             flash("Account Created")
 
@@ -63,9 +68,9 @@ def sign_up():
 
             user = None
 
-            if accountType == "Buyer":
+            if account_type == "Buyer":
                 user = Buyer(first_name, last_name, email, password)
-            elif accountType == "Seller":
+            elif account_type == "Seller":
                 user = Seller(first_name, last_name, email, password)
 
             db.session.add(user)
@@ -81,31 +86,30 @@ def sign_up():
                 user_db.user_type = "Seller"
             elif isinstance(user, Buyer):
                 user_db.user_type = "Buyer"
-            
+
             db.session.commit()
 
-            if StillLife:
+            if still_life:
                 pref = User_Preference(user_id, "Still Life")
                 db.session.add(pref)
                 db.session.commit()
-            if Landscape:
+            if landscape:
                 pref = User_Preference(user_id, "Landscape")
                 db.session.add(pref)
                 db.session.commit()
-            if Seascape:
+            if seascape:
                 pref = User_Preference(user_id, "Seascape")
                 db.session.add(pref)
                 db.session.commit()
-            if Portraiture:
+            if portraiture:
                 pref = User_Preference(user_id, "Portraiture")
                 db.session.add(pref)
                 db.session.commit()
-            if Abstract:
+            if abstract:
                 pref = User_Preference(user_id, "Abstract")
                 db.session.add(pref)
                 db.session.commit()
 
             return redirect(url_for('views.home'))
-
 
     return render_template("signup.html")
