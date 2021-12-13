@@ -54,6 +54,6 @@ class BidIterator(Iterator):
 
     def change_direction(self):
         """ change iteration direction """
-        if self._reverse is 1:
+        if self._reverse:
             self._reverse = 0
-        self._reverse = 0
+        self._reverse = 1
