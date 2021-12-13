@@ -3,9 +3,11 @@ import datetime
 from auctionly import db
 from auctionly.bid.bid import Bid
 from auctionly.art.art import Art
+from auctionly.system.shipment import Shipment
+from auctionly.system.shipment import Authentication
 from auctionly.users.user import User
 from auctionly.system.payment import Payment
-
+from auction.auction_state.auction_state import *
 
 class Auction(db.Model):
     """this class handles the auctioning process, everything from setting up an auction
@@ -31,6 +33,7 @@ class Auction(db.Model):
         self.bid_increment = bid_increment
         self.buyer_id = None
         self.payment = None
+        self.state = Started()
 
     def get_upload_time(self):
         """return upload time"""
@@ -80,6 +83,10 @@ class Auction(db.Model):
         """return auction art the payment that was placed on sale"""
         return self.payment
 
+    def get_state(self):
+        """return auction art the payment that was placed on sale"""
+        return self.state
+
     def set_auction_description(self, description):
         """return auction description"""
         self.description = description
@@ -99,6 +106,9 @@ class Auction(db.Model):
     def set_payment(self, payment):
         """set payment for the auction"""
         self.payment = payment
+
+    def set_state(self, state):
+        self.state = state
 
     def get_time_since_start(self):
         """displays how much time has passed since the beginning of the auction"""
@@ -188,8 +198,7 @@ class Auction(db.Model):
         # user is not the author of the auction
         # the auction is still in progress
         if (
-            not self.is_bidder_a_buyer
-            or self.has_timed_out()
+            not self.has_timed_out()
             or self.is_own_auction(user)
         ):
             return False
@@ -203,7 +212,10 @@ class Auction(db.Model):
 
     def has_timed_out(self):
         """return if the auction is not on sale anymore"""
-        return self.get_end_time() <= datetime.datetime.now()
+        timed_out = self.get_end_time() <= datetime.datetime.now()
+        if timed_out:
+            self.state = "ended"
+        return timed_out
 
     def payment_has_been_claimed(self):
         """check wherther the payment has been sent to the seller"""
@@ -212,6 +224,16 @@ class Auction(db.Model):
     def pay_seller(self):
         """pay the seller for their auction"""
         Payment.pay_seller(self)
+
+    def complete_auction(self):
+        self.set_state(Shipped())
+        Shipment.ship_art(self.auction_id)
+        result = Authentication.authenticate_art(self)
+        if result == "authenticated":
+            self.set_state(Authenticated())
+        elif result == "rejected":
+            self.set_state(Rejected())
+
 
     def has_user_won_auction(self, cur_user: User):
         """check whether the user has won the auction"""
