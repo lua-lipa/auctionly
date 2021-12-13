@@ -250,6 +250,6 @@ class Auction(db.Model):
         """ method to print amounts of all the bids that have been placed on the auction """
         collection = self.get_bids()
         iterator = BidIterator(collection=collection, reverse=False)
-        while (iterator.hasNext()):
+        while iterator.has_next():
             print(iterator.__next__.get_amount())
         iterator.__next__()
