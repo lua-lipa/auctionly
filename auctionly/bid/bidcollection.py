@@ -1,4 +1,5 @@
 
+""" Iterator design pattern: collection of bids for the bid iterator"""
 from collections.abc import Iterable,
 from .biditerator import BidIterator
 
