@@ -1,3 +1,4 @@
+""" defining the constants for the system business rules """
 AUCTION_FEE_FRACTION = 0.1
 AUCTION_FEE_FRACTION_FIRST_PLACE = 0.03
 AUCTION_FEE_FRACTION_SECOND_PLACE = 0.05

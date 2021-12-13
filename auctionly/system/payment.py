@@ -1,7 +1,7 @@
 """ payment system handles receiving, freezing and
 sending money through our system """
-from auctionly import fee_constants
 from datetime import datetime
+from auctionly import fee_constants
 from ..bid.bid import Bid
 from .. import db
 
