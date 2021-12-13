@@ -15,6 +15,12 @@ class Shipment():
         self.invoice_number = auction_id + random.randint(1, 100000)
         print("The shipment service has received a request for shipment, please refer to your invoice number at" + str(self.invoice_number))
 
+    def ship_art_to_buyer(self):
+        print("shipped to buyer")
+
+    def ship_art_to_seller(self):
+        print("shipped to seller")
+
     def get_invoice_number(self):
         """ return invoice number """
         return self.invoice_number

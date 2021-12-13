@@ -99,9 +99,28 @@ class Payment(db.Model):
         )
         return True
 
+    def pay_insurance_fee(self, auction):
+        """send the money placed by the bidder to the seller"""
+        insurance_fee_fraction = fee_constants.AUTHENTICATION_FEE_FRACTION
+
+        # fetch the bid that has been placed on the auction
+        payment = self.query.filter_by(
+            auction_id=auction.get_auction_id).first()
+
+        if payment is not None:
+            amount_bidder_pays = payment.get_amount()
+            amount_paid_for_service = amount_bidder_pays * insurance_fee_fraction
+            amount_taken_from_seller = amount_bidder_pays - amount_paid_for_service
+
+            payment.seller_paid = amount_taken_from_seller
+            payment.service_fee_paid = amount_paid_for_service
+
+            db.session.commit()
+
     def pay_seller(self, auction):
         """send the money placed by the bidder to the seller"""
         service_fee_fraction = fee_constants.AUCTION_FEE_FRACTION
+        insurance_fee_fraction = fee_constants.AUCTION_FEE_FRACTION
 
         # fetch the bid that has been placed on the auction
         payment = self.query.filter_by(
@@ -110,7 +129,8 @@ class Payment(db.Model):
         if payment is not None:
             amount_bidder_pays = payment.get_amount()
             amount_paid_for_service = amount_bidder_pays * service_fee_fraction
-            amount_paid_to_seller = amount_bidder_pays - amount_paid_for_service
+            amount_paid_for_insurance = amount_bidder_pays * insurance_fee_fraction
+            amount_paid_to_seller = amount_bidder_pays - (amount_paid_for_service + amount_paid_for_insurance)
 
             payment.seller_paid = amount_paid_to_seller
             payment.service_fee_paid = amount_paid_for_service

@@ -5,24 +5,32 @@ class IAuctionState(ABC):
     @staticmethod
     @abstractmethod
     def __str__():
-        "Set the default method"
+        pass
 
 class Started(IAuctionState):
-    def __str__():
-        "Started"
+    def __str__(self):
+        return "Started"
 
 class Ended(IAuctionState):
-    def __str__():
-        "Ended"
+    def __str__(self):
+        return "Ended"
 
 class Shipped(IAuctionState):
-    def __str__():
-        "Shipped"
+    def __str__(self):
+        return "Shipped"
 
 class Authenticated(IAuctionState):
-    def __str__():
-        "Authenticated"
+    def __str__(self):
+        return "Authenticated"
 
 class Rejected(IAuctionState):
-    def __str__():
-        "Rejected"
+    def __str__(self):
+        return "Rejected"
+
+class ShippedToBuyer(IAuctionState):
+    def __str__(self):
+        return "ShippedToBuyer"
+
+class ShippedToSeller(IAuctionState):
+    def __str__(self):
+        return "ShippedToSeller"

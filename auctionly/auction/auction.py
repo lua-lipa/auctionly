@@ -86,6 +86,8 @@ class Auction(db.Model):
         return self.payment
 
     def get_state(self):
+        self.state = Started()
+        print(self.state)
         """return auction art the payment that was placed on sale"""
         return self.state
 
@@ -216,7 +218,7 @@ class Auction(db.Model):
         """return if the auction is not on sale anymore"""
         timed_out = self.get_end_time() <= datetime.datetime.now()
         if timed_out:
-            self.state = "ended"
+            self.state = Ended()
         return timed_out
 
     def payment_has_been_claimed(self):
@@ -229,12 +231,18 @@ class Auction(db.Model):
 
     def complete_auction(self):
         self.set_state(Shipped())
+        Payment.pay_insurance_fee()
         Shipment.ship_art(self.auction_id)
         result = Authentication.authenticate_art(self)
         if result == "authenticated":
             self.set_state(Authenticated())
+            Shipment.ship_art_to_buyer()
+            self.set_state(ShippedToBuyer())
+            Payment.pay_seller()
         elif result == "rejected":
             self.set_state(Rejected())
+            Shipment.ship_art_to_seller()
+            self.set_state(ShippedToSeller())
 
     def has_user_won_auction(self, cur_user: User):
         """check whether the user has won the auction"""
