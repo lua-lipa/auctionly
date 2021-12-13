@@ -1,12 +1,11 @@
 """ this file holds the auction class which handles the auctioning process """
-import collections
-from auctionly.bid.biditerator import BidIterator
+from auctionly.bid.bidcollection import BidIterator
 import datetime
 from auctionly import db
 from auctionly.bid.bid import Bid
 from auctionly.art.art import Art
 from auctionly.system.shipment import Shipment
-from auctionly.system.shipment import Authentication
+from auctionly.system.authentication import Authentication
 from auctionly.users.user import User
 from auctionly.system.payment import Payment
 from auctionly.auction.auction_state import *
@@ -237,7 +236,6 @@ class Auction(db.Model):
         elif result == "rejected":
             self.set_state(Rejected())
 
-
     def has_user_won_auction(self, cur_user: User):
         """check whether the user has won the auction"""
         if self.has_timed_out():
@@ -251,6 +249,6 @@ class Auction(db.Model):
         """ method to print amounts of all the bids that have been placed on the auction """
         collection = self.get_bids()
         iterator = BidIterator(collection=collection, reverse=False)
-        while (iterator.__hasNext__):
+        while (iterator.hasNext()):
             print(iterator.__next__.get_amount())
         iterator.__next__()

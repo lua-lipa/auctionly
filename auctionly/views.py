@@ -175,7 +175,7 @@ def auction():
 
     current_auction = Auction.query.filter_by(id=auction_id).first()
 
-    seller_id = auction.get_seller_id()
+    seller_id = current_auction.get_seller_id()
     seller = User.query.filter_by(id=seller_id).first()
     bids_placed_by_user = Auction.query.filter_by(seller_id=user_id).first()
 
