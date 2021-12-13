@@ -3,6 +3,7 @@ from auctionly import db # pylint: disable=E0401
 
 class ArtNotifications(db.Model):
     """Art notification class implemented to create art notification"""
+    # pylint: disable=E1101
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     art_id = db.Column(db.Integer, db.ForeignKey("art.id"))

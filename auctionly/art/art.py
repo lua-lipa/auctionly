@@ -3,6 +3,7 @@ from auctionly import db # pylint: disable=E0401
 
 class Art(db.Model):
     """Art class implemented to create art objects that can be passed between users"""
+    # pylint: disable=E1101
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     name = db.Column(db.String(150))
