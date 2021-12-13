@@ -2,7 +2,7 @@ import datetime
 from . import db
 from .auction.auction import Auction
 from .art.art import Art
-from .art.art_notifications import Art_Notifications
+from .art.art_notifications import ArtNotifications
 from .users.user import User
 from .system.feed import Feed
 from .system.rank import Rank

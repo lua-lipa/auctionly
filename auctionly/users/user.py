@@ -1,7 +1,7 @@
 """ User class implemented to provide parent class methods to its children """
 from flask_login import UserMixin
 from auctionly.art.art import Art
-from auctionly.art.art_notifications import Art_Notifications
+from auctionly.art.art_notifications import ArtNotifications
 from auctionly.users.user_preference import User_Preference
 from .. import db
 

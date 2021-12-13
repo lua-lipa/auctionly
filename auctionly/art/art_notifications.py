@@ -1,6 +1,7 @@
-from auctionly import db
+"""Art notification module implemented to hold Art Notifications class"""
+from ..auctionly import db
 
-class Art_Notifications(db.Model):
+class ArtNotifications(db.Model):
     """Art notification class implemented to create art notification"""
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
@@ -12,5 +13,9 @@ class Art_Notifications(db.Model):
         self.art_id = art_id
 
     def get_art_id(self):
+        """returns the art id of a row in a table"""
+        return self.art_id
+
+    def get_art_user_id(self):
         """returns the art id of a row in a table"""
         return self.art_id
