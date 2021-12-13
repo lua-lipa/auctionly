@@ -1,6 +1,6 @@
 
-
-from collections.abc import Iterable, Iterator
+""" Iterator design pattern: iterator for bids """
+from collections.abc import Iterator
 from .bidcollection import BidCollection
 
 
@@ -25,3 +25,8 @@ class BidIterator(Iterator):
             raise StopIteration()
 
         return value
+
+    def __hasNext__(self):
+        if self._reverse:
+            return self._index >= 0
+        return self._index < len(self._collection)
