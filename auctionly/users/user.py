@@ -4,7 +4,7 @@
 from flask_login import UserMixin
 from auctionly.art.art import Art
 from auctionly.art.art_notifications import ArtNotifications
-from auctionly.users.user_preference import User_Preference
+from auctionly.users.user_preference import UserPreference
 from .. import db
 
 
@@ -63,7 +63,7 @@ class User(db.Model, UserMixin):
 
     def get_user_prefs(self):
         """ returns the preferences of the user """
-        user_pref = User_Preference.query.filter_by(user_id=self.id).all()
+        user_pref = UserPreference.query.filter_by(user_id=self.id).all()
         prefs = []
         for pref in user_pref:
             prefs.append(pref.get_name())

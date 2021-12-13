@@ -5,7 +5,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 from .users.buyer import Buyer
 from .users.seller import Seller
 from .users.user import User
-from .users.user_preference import User_Preference
+from .users.user_preference import UserPreference
 from . import db
 
 auth = Blueprint('auth', __name__)
@@ -85,23 +85,23 @@ def sign_up():
             db.session.commit()
 
             if StillLife:
-                pref = User_Preference(user_id, "Still Life")
+                pref = UserPreference(user_id, "Still Life")
                 db.session.add(pref)
                 db.session.commit()
             if Landscape:
-                pref = User_Preference(user_id, "Landscape")
+                pref = UserPreference(user_id, "Landscape")
                 db.session.add(pref)
                 db.session.commit()
             if Seascape:
-                pref = User_Preference(user_id, "Seascape")
+                pref = UserPreference(user_id, "Seascape")
                 db.session.add(pref)
                 db.session.commit()
             if Portraiture:
-                pref = User_Preference(user_id, "Portraiture")
+                pref = UserPreference(user_id, "Portraiture")
                 db.session.add(pref)
                 db.session.commit()
             if Abstract:
-                pref = User_Preference(user_id, "Abstract")
+                pref = UserPreference(user_id, "Abstract")
                 db.session.add(pref)
                 db.session.commit()
 
