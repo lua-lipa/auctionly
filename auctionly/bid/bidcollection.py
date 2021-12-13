@@ -34,6 +34,7 @@ class BidIterator(Iterator):
         self._position = -1 if reverse else 0
 
     def __next__(self):
+        """ return next iterable object """
         try:
             value = self._collection[self._position]
             if self._reverse:
@@ -45,12 +46,14 @@ class BidIterator(Iterator):
 
         return value
 
-    def hasNext(self):
+    def has_next(self):
+        """ check if iterator has an object left to iterate over """
         if self._reverse:
             return self._index >= 0
         return self._index < len(self._collection)
 
-    def changeDirection(self):
-        if self._reverse is 1:
+    def change_direction(self):
+        """ change iteration direction """
+        if self._reverse:
             self._reverse = 0
-        self._reverse = 0
+        self._reverse = 1

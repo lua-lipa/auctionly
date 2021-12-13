@@ -1,3 +1,4 @@
+""" class to initialize the web application """
 from auctionly import create_app
 
 app = create_app()

@@ -1,6 +1,7 @@
 """module containing Sale class"""
 from .. import db
 
+
 class Sale(db.Model):
     """Sale class used to make a sale table that keeps track of what was sold by who to who"""
     id = db.Column(db.Integer, primary_key=True)
@@ -21,4 +22,3 @@ class Sale(db.Model):
     def get_bought_by(self):
         """returns who they buyer is"""
         return self.bought_by
-    

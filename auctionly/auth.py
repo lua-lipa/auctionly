@@ -90,23 +90,23 @@ def sign_up():
             db.session.commit()
 
             if still_life:
-                pref = User_Preference(user_id, "Still Life")
+                pref = UserPreference(user_id, "Still Life")
                 db.session.add(pref)
                 db.session.commit()
             if landscape:
-                pref = User_Preference(user_id, "Landscape")
+                pref = UserPreference(user_id, "Landscape")
                 db.session.add(pref)
                 db.session.commit()
             if seascape:
-                pref = User_Preference(user_id, "Seascape")
+                pref = UserPreference(user_id, "Seascape")
                 db.session.add(pref)
                 db.session.commit()
             if portraiture:
-                pref = User_Preference(user_id, "Portraiture")
+                pref = UserPreference(user_id, "Portraiture")
                 db.session.add(pref)
                 db.session.commit()
             if abstract:
-                pref = User_Preference(user_id, "Abstract")
+                pref = UserPreference(user_id, "Abstract")
                 db.session.add(pref)
                 db.session.commit()
 
