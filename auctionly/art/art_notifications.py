@@ -1,5 +1,5 @@
 """Art notification module implemented to hold Art Notifications class"""
-from ..auctionly import db
+from auctionly import db # pylint: disable=E0401
 
 class ArtNotifications(db.Model):
     """Art notification class implemented to create art notification"""
