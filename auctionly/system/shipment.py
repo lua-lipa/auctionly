@@ -16,9 +16,11 @@ class Shipment():
         print("The shipment service has received a request for shipment, please refer to your invoice number at" + str(self.invoice_number))
 
     def ship_art_to_buyer(self):
+        """ ship art to buyer """
         print("shipped to buyer")
 
     def ship_art_to_seller(self):
+        """ ship art to seller """
         print("shipped to seller")
 
     def get_invoice_number(self):
