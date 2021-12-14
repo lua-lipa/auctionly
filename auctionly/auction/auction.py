@@ -230,9 +230,10 @@ class Auction(db.Model):
         Payment.pay_seller(self)
 
     def complete_auction(self):
-        self.set_state(Shipped())
+        """business rules for when an auction is completed"""
         Payment.pay_insurance_fee()
         Shipment.ship_art(self.auction_id)
+        self.set_state(Shipped())
         result = Authentication.authenticate_art(self)
         if result == "authenticated":
             self.set_state(Authenticated())

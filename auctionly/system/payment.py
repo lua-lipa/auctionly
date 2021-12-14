@@ -100,7 +100,7 @@ class Payment(db.Model):
         return True
 
     def pay_insurance_fee(self, auction):
-        """send the money placed by the bidder to the seller"""
+        """send the fee needed for authentication"""
         insurance_fee_fraction = fee_constants.AUTHENTICATION_FEE_FRACTION
 
         # fetch the bid that has been placed on the auction
