@@ -1,3 +1,4 @@
+""" handling authentication for the system """
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_user, login_required, logout_user
 from .users.buyer import Buyer
