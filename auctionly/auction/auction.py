@@ -88,6 +88,8 @@ class Auction(db.Model):
 
     def get_state(self):
         """return the current state of the auction"""
+        self.state = Started()
+        print(self.state)
         return self.state
 
     def set_auction_description(self, description):
