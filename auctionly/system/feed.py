@@ -42,3 +42,4 @@ class Feed:
         if auction:
             auction_id = auction.get_auction_id()
             return auction_id
+        return None
