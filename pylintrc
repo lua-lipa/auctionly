@@ -94,7 +94,18 @@ disable=raw-checker-failed,
         too-few-public-methods,
         no-self-use,
         raise-missing-from,
-        too-many-statements
+        too-many-statements,
+        import-error,
+        redefined-builtin,
+        invalid-name,
+        too-many-instance-attributes,
+        no-value-for-parameter,
+        unused-wildcard-import,
+        wildcard-import,
+        cyclic-import,
+        no-method-argument,
+        invalid-str-returned,
+        pointless-string-statement
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

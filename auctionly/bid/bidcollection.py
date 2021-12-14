@@ -36,7 +36,7 @@ class BidIterator(Iterator):
     def __next__(self):
         """ return next iterable object """
         try:
-            value = self._collection[self._position]
+            value = self._collection[self._position].get_bid_id()
             if self._reverse:
                 self._position += -1
             else:
