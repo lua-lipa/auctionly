@@ -14,11 +14,11 @@ class Payment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     auction_id = db.Column(db.Integer, db.ForeignKey("auction.id"))
-    time = db.Column(db.DateTime, default=datetime.utcnow)
     amount = db.Column(db.Integer)
     bid_id = db.Column(db.Integer, db.ForeignKey("bid.id"))
     seller_paid = db.Column(db.Integer)
     service_fee_paid = db.Column(db.Integer)
+    time = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __init__(
         self,

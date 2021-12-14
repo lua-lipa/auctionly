@@ -1,6 +1,6 @@
 """ this file holds the auction class which handles the auctioning process """
-from auctionly.bid.bidcollection import BidIterator
 import datetime
+from auctionly.bid.bidcollection import BidIterator
 from auctionly import db
 from auctionly.bid.bid import Bid
 from auctionly.art.art import Art
@@ -9,6 +9,7 @@ from auctionly.system.authentication import Authentication
 from auctionly.users.user import User
 from auctionly.system.payment import Payment
 from auctionly.auction.auction_state import *
+
 
 class Auction(db.Model):
     """this class handles the auctioning process, everything from setting up an auction
@@ -110,6 +111,7 @@ class Auction(db.Model):
         self.payment = payment
 
     def set_state(self, state):
+        """ set state of the auction """
         self.state = state
 
     def get_time_since_start(self):
@@ -228,6 +230,7 @@ class Auction(db.Model):
         Payment.pay_seller(self)
 
     def complete_auction(self):
+        """ finalize the auction """
         self.set_state(Shipped())
         Shipment.ship_art(self.auction_id)
         result = Authentication.authenticate_art(self)
