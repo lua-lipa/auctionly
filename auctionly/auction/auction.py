@@ -246,9 +246,9 @@ class Auction(db.Model):
         return False
 
     def iterate_over_bids(self):
-        """ method to print amounts of all the bids that have been placed on the auction """
+        """ method to print id's of all the bids that have been placed on the auction """
         collection = self.get_bids()
         iterator = BidIterator(collection=collection, reverse=False)
         while iterator.has_next():
-            print(iterator.__next__.get_amount())
+            print(iterator.__next__())
         iterator.__next__()
