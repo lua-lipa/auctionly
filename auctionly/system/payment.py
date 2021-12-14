@@ -79,7 +79,7 @@ class Payment(db.Model):
 
     def get_amount(self):
         """get amount of payment"""
-        return self.get_amount()
+        return self.amount
 
     def get_time(self):
         """get time of payment"""
