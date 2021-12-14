@@ -40,7 +40,7 @@ def home():
         art_id = request.args.get('art_id')
         notify = request.args.get('notify')
 
-        # checking is the reuquest is to be added to the arts observer list
+        # checking is the request is to be added to the arts observer list
         # and handling it
         if notify == "True":
             attach = ArtNotifications(flask_login.current_user.id, art_id)
@@ -51,7 +51,7 @@ def home():
                 Art.query.filter_by(id=art_id).first().get_name() + "."
             flash(message, category="success")
 
-        # checking is the reuquest is to be removed from the arts observer list
+        # checking is the request is to be removed from the arts observer list
         # and handling it
         elif notify == "False":
             ArtNotifications.query.filter((ArtNotifications.art_id == art_id) & (
