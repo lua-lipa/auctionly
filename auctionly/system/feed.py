@@ -4,8 +4,10 @@ from auctionly.art.art import Art
 from auctionly.users.user import User
 from auctionly.auction.auction import Auction
 
+
 class Feed:
     """Feed class implemented to create feeds for users"""
+
     def __init__(self, user_id):
         """creates a feed object"""
         self.all_art = Art.query.all()
@@ -37,7 +39,6 @@ class Feed:
     def get_art_auction_id(self, art_id):
         """returns the auction id of a particular art piece"""
         auction = Auction.query.filter_by(art_id=art_id).first()
-        if not auction:
-            return
-        auction_id = auction.get_auction_id()
-        return auction_id
+        if auction:
+            auction_id = auction.get_auction_id()
+            return auction_id
