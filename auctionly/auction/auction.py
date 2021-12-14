@@ -87,9 +87,7 @@ class Auction(db.Model):
         return self.payment
 
     def get_state(self):
-        self.state = Started()
-        print(self.state)
-        """return auction art the payment that was placed on sale"""
+        """return the current state of the auction"""
         return self.state
 
     def set_auction_description(self, description):

@@ -8,8 +8,7 @@ class IAuctionState(ABC):
     @abstractmethod
     def __str__():
         """ print status """
-        pass
-
+        return ""
 
 class Started(IAuctionState):
     """ auction has started"""
@@ -38,6 +37,18 @@ class Authenticated(IAuctionState):
         """ print status """
         return "Authenticated"
 
+
+class ShippedToBuyer(IAuctionState):
+    """ auction has been shipped to the buyer """
+    def __str__():
+        """ print status """
+        return "Rejected"
+
+class ShippedToSeller(IAuctionState):
+    """ auction has been shipped back to the seller """
+    def __str__():
+        """ print status """
+        return "Rejected"
 
 class Rejected(IAuctionState):
     """ auction has been rejected """
