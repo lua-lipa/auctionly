@@ -1,6 +1,8 @@
 """ System for authenticating auction """
 import random
 
+from auctionly.system.payment import Payment
+
 
 class Authentication():
     """ class for authenticating art """

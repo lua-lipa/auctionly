@@ -181,7 +181,7 @@ def auction():
 
     if request.method == 'POST':
         if 'claim_payment' in request.form:
-            print("claimed payment!")
+            current_auction.complete_auction()
 
         elif 'claim_art' in request.form:
             print("claimed art!")
