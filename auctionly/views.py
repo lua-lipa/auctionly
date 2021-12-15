@@ -193,7 +193,7 @@ def auction():
             if str(user_id) == str(current_auction.get_seller_id()):
                 return render_template("edit-auction.html")
 
-            auction.place_bid(user_id)
+            current_auction.place_bid(user_id)
             return render_template("auction.html",
                                    auction=current_auction,
                                    seller=seller,
