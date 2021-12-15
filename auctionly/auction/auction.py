@@ -59,11 +59,11 @@ class Auction(db.Model):
         return self.art_id
 
     def get_auction_description(self):
-        """return auction art id"""
+        """return auction description """
         return self.description
 
     def get_starter_price(self):
-        """return auction art id"""
+        """return auction price"""
         return self.starter_price
 
     def get_bid_increment(self):
@@ -180,7 +180,9 @@ class Auction(db.Model):
 
         # call the payment system to freeze amount from the user,
         # if the user has the money available
-        bid_received = Payment.receive_bid_from_user(
+
+        payment = Payment()
+        bid_received = payment.receive_bid_from_user(
             user_id=user_id,
             amount=amount,
             auction_id=self.get_auction_id(),
@@ -204,7 +206,7 @@ class Auction(db.Model):
         # user is not the author of the auction
         # the auction is still in progress
         if (
-            not self.has_timed_out()
+            self.has_timed_out()
             or self.is_own_auction(user)
         ):
             return False

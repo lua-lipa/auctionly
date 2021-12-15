@@ -22,11 +22,11 @@ class Payment(db.Model):
 
     def __init__(
         self,
-        user_id,
-        auction_id,
-        time,
-        amount,
-        bid_id,
+        user_id=0,
+        auction_id=0,
+        time=0,
+        amount=0,
+        bid_id=0,
         seller_paid=0,
         service_fee_paid=0,
     ):
@@ -130,7 +130,8 @@ class Payment(db.Model):
             amount_bidder_pays = payment.get_amount()
             amount_paid_for_service = amount_bidder_pays * service_fee_fraction
             amount_paid_for_insurance = amount_bidder_pays * insurance_fee_fraction
-            amount_paid_to_seller = amount_bidder_pays - (amount_paid_for_service + amount_paid_for_insurance)
+            amount_paid_to_seller = amount_bidder_pays - \
+                (amount_paid_for_service + amount_paid_for_insurance)
 
             payment.seller_paid = amount_paid_to_seller
             payment.service_fee_paid = amount_paid_for_service
